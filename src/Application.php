@@ -5,22 +5,13 @@ namespace Yumerov\MaxiBot;
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
+use Discord\WebSockets\Intents;
 
 class Application
 {
-    private readonly string $discordToken;
 
-    /**
-     * @throws Exception
-     */
-    public function __construct()
+    public function __construct(private readonly string $discordToken)
     {
-        $token = getenv('DISCORD_TOKEN');
-        if ($token) {
-            $this->discordToken = $token;
-        } else {
-            throw new Exception("Missing 'DISCORD_TOKEN' env variable");
-        }
     }
 
     /**
@@ -32,7 +23,7 @@ class Application
         try {
             $discord = new Discord([
                 'token' => $this->discordToken,
-                'intents' => 2048
+                'intents' => Intents::getDefaultIntents()
             ]);
         } catch (\Exception $ex) {
             throw new Exception(message: 'Failed to init Discord client', previous: $ex);
@@ -47,6 +38,19 @@ class Application
                     return;
                 }
 
+                $mentions = $message->mentions;
+
+                if ($mentions->count() !== 1) {
+                    // todo: replace with monolog
+                    return;
+                }
+
+                if ($mentions->first()->id !== $discord->user->id) {
+                    // todo: replace with monolog
+                    return;
+                }
+
+                echo "message here!!!";
                 $message->reply('There is no second best!');
             });
         });
