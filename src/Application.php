@@ -15,6 +15,7 @@ final class Application
 {
 
     private readonly string $discordToken;
+    private readonly DiscordWrapper $discordWrapper;
 
     public function __construct(private readonly string $rootDir)
     {
@@ -37,46 +38,30 @@ final class Application
     }
 
     /**
-     * @return void
+     * @return $this
      * @throws Exception
      */
-    public function run(): void
+    public function initWrapper(): self
     {
         try {
-            $discord = new Discord([
-                'token' => $this->discordToken,
-                'intents' => Intents::getDefaultIntents()
-            ]);
+            $this->discordWrapper = new DiscordWrapper(
+                new Discord([
+                    'token' => $this->discordToken,
+                    'intents' => Intents::getDefaultIntents()
+                ])
+            );
         } catch (\Exception $ex) {
             throw new Exception(message: 'Failed to init Discord client', previous: $ex);
         }
 
-        $discord->on('ready', function (Discord $discord) {
-            echo "Bot is ready!", PHP_EOL; // todo: replace with monolog
+        return $this;
+    }
 
-            $discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) {
-                if ($message->author->bot) {
-                    // todo: replace with monolog
-                    return;
-                }
-
-                $mentions = $message->mentions;
-
-                if ($mentions->count() !== 1) {
-                    // todo: replace with monolog
-                    return;
-                }
-
-                if ($mentions->first()->id !== $discord->user->id) {
-                    // todo: replace with monolog
-                    return;
-                }
-
-                echo "message here!!!";
-                $message->reply('There is no second best!');
-            });
-        });
-
-        $discord->run();
+    /**
+     * @return void
+     */
+    public function run(): void
+    {
+        $this->discordWrapper->run();
     }
 }
