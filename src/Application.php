@@ -6,12 +6,34 @@ use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
 use Discord\WebSockets\Intents;
+use Dotenv\Dotenv;
 
-class Application
+/**
+ * Represents the application and container class
+ */
+final class Application
 {
 
-    public function __construct(private readonly string $discordToken)
+    private readonly string $discordToken;
+
+    public function __construct(private readonly string $rootDir)
     {
+    }
+
+    public function setDiscordToken(string $token): self
+    {
+        $this->discordToken = $token;
+
+        return $this;
+    }
+
+    public function initEnv(): self
+    {
+        $dotenv = Dotenv::createImmutable($this->rootDir);
+        $dotenv->load();
+        $dotenv->required('DISCORD_TOKEN');
+
+        return $this;
     }
 
     /**
