@@ -1,0 +1,25 @@
+{
+    "name": "yumerov/maxi-bot",
+    "description": "Bitcoin related Discord bot",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Yumerov\\MaxiBot\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Levent Yumerov",
+            "email": "levent@yumerov.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.10"
+    },
+    "scripts": {
+        "style": [],
+        "test": []
+    }
+}
