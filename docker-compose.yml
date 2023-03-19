@@ -1,0 +1,8 @@
+version: "3"
+services:
+  bot:
+    image: php:8.2-cli
+    volumes:
+      - ./src:/var/www/html
+    environment:
+      PHP_EXTENSIONS: json,zlib,event
