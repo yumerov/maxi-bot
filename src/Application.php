@@ -5,52 +5,63 @@ namespace Yumerov\MaxiBot;
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
+use Discord\WebSockets\Intents;
+use Dotenv\Dotenv;
 
-class Application
+/**
+ * Represents the application and container class
+ */
+final class Application
 {
-    private readonly string $discordToken;
 
-    /**
-     * @throws Exception
-     */
-    public function __construct()
+    private string $discordToken;
+    private DiscordWrapper $discordWrapper;
+
+    public function __construct(private readonly string $rootDir)
     {
-        $token = getenv('DISCORD_TOKEN');
-        if ($token) {
-            $this->discordToken = $token;
-        } else {
-            throw new Exception("Missing 'DISCORD_TOKEN' env variable");
-        }
+    }
+
+    public function setDiscordToken(string $token): self
+    {
+        $this->discordToken = $token;
+
+        return $this;
+    }
+
+    public function initEnv(): self
+    {
+        $dotenv = Dotenv::createImmutable($this->rootDir);
+        $dotenv->load();
+        $dotenv->required('DISCORD_TOKEN');
+
+        return $this;
     }
 
     /**
-     * @return void
+     * @return $this
      * @throws Exception
      */
-    public function run(): void
+    public function initWrapper(): self
     {
         try {
-            $discord = new Discord([
-                'token' => $this->discordToken,
-                'intents' => 2048
-            ]);
+            $this->discordWrapper = new DiscordWrapper(
+                new Discord([
+                    'token' => $this->discordToken,
+                    'intents' => Intents::getDefaultIntents()
+                ])
+            );
         } catch (\Exception $ex) {
             throw new Exception(message: 'Failed to init Discord client', previous: $ex);
         }
 
-        $discord->on('ready', function (Discord $discord) {
-            echo "Bot is ready!", PHP_EOL; // todo: replace with monolog
+        return $this;
+    }
 
-            $discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) {
-                if ($message->author->bot) {
-                    // todo: replace with monolog
-                    return;
-                }
-
-                $message->reply('There is no second best!');
-            });
-        });
-
-        $discord->run();
+    /**
+     * @return void
+     */
+    public function run(): void
+    {
+        $this->discordWrapper->run();
     }
 }
