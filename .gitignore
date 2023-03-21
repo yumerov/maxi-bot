@@ -1,5 +1,5 @@
 /vendor/
 .idea
-.env
+/.env
 phpunit.coverage.xml
 .phpunit.result.cache
