@@ -14,8 +14,8 @@ use Dotenv\Dotenv;
 final class Application
 {
 
-    private readonly string $discordToken;
-    private readonly DiscordWrapper $discordWrapper;
+    private string $discordToken;
+    private DiscordWrapper $discordWrapper;
 
     public function __construct(private readonly string $rootDir)
     {
