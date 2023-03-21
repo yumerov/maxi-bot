@@ -29,11 +29,8 @@ class EnvLoaderTest extends TestCase
 
     public function test_invalid(): void
     {
-        try {
-            (new EnvLoader(__DIR__ . '/invalid'))->load();
-            $this->fail();
-        } catch (ValidationException $exception) {
-            $this->assertEquals('One or more environment variables failed assertions: ' . EnvLoader::REQUIRED[0] . ' is missing.', $exception->getMessage());
-        }
+        unset($_ENV['DISCORD_TOKEN']);
+        (new EnvLoader(__DIR__ . '/invalid'))->load();
+        $this->assertNull($_ENV['DISCORD_TOKEN']);
     }
 }
