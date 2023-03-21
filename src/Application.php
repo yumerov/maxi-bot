@@ -30,9 +30,7 @@ final class Application
 
     public function initEnv(): self
     {
-        $dotenv = Dotenv::createImmutable($this->rootDir);
-        $dotenv->load();
-        $dotenv->required('DISCORD_TOKEN');
+        (new EnvLoader($this->rootDir))->load();
 
         return $this;
     }
