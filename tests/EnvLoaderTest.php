@@ -23,8 +23,8 @@ class EnvLoaderTest extends TestCase
         (new EnvLoader(__DIR__ . '/valid'))->load();
 
         // Assert
-        $this->assertEquals($token, getenv('DISCORD_TOKEN'));
-        $this->assertEquals($value, getenv('VALUE'));
+        $this->assertEquals($token, $_ENV['DISCORD_TOKEN']);
+        $this->assertEquals($value, $_ENV['VALUE']);
     }
 
     public function test_invalid(): void
