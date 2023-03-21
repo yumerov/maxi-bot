@@ -31,10 +31,9 @@ class EnvLoaderTest extends TestCase
     {
         try {
             (new EnvLoader(__DIR__ . '/invalid'))->load();
+            $this->fail();
         } catch (ValidationException $exception) {
             $this->assertEquals('One or more environment variables failed assertions: ' . EnvLoader::REQUIRED[0] . ' is missing.', $exception->getMessage());
         }
-
-        $this->fail();
     }
 }
