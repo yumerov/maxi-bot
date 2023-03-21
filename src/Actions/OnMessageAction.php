@@ -8,7 +8,8 @@ use Discord\Parts\Channel\Message;
 class OnMessageAction
 {
 
-    public function __invoke(Message $message, Discord $discord): void {
+    public function __invoke(Message $message, Discord $discord): void
+    {
         if ($message->author->bot) {
             // todo: replace with monolog
             return;
