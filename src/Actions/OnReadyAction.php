@@ -13,6 +13,8 @@ class OnReadyAction
     {
         echo "Bot is ready!", PHP_EOL; // todo: replace with monolog
 
-        $discord->on(Event::MESSAGE_CREATE, new OnMessageAction());
+        $discord->getChannel('1078284556773380186')->sendMessage('Добро утро, общество :)');
+
+//        $discord->on(Event::MESSAGE_CREATE, new OnMessageAction());
     }
 }
