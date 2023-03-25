@@ -37,7 +37,8 @@
         ],
         "quality": [
             "@style",
-            "@test"
+            "@test",
+            "echo \"Everything is electricity and cable\""
         ]
     },
     "require": {

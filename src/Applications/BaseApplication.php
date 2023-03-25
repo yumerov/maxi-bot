@@ -59,7 +59,7 @@ abstract class BaseApplication
         return $this;
     }
 
-    protected abstract function setOnReadyAction(): void;
+    abstract protected function setOnReadyAction(): void;
 
     public function run(): void
     {
