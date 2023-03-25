@@ -9,7 +9,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 (new MainApplication(__DIR__ . '/..'))
     ->initEnv()
-    ->setDiscordToken($_ENV['DISCORD_TOKEN'])
+    ->setEnv($_ENV)
     ->initLogger()
     ->initClient()
     ->run();
