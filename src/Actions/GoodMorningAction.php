@@ -6,6 +6,7 @@ use Discord\Discord;
 use Discord\Http\Exceptions\NoPermissionsException;
 use Discord\WebSockets\Event;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\Exceptions\ExitException;
 
 class GoodMorningAction
 {
@@ -16,13 +17,16 @@ class GoodMorningAction
     {
     }
 
+    /**
+     * @throws ExitException
+     */
     public function __invoke(Discord $discord): void
     {
-        $this->logger->debug("[GM] Bot is ready!");
+        $this->logger->debug('[GM] Bot is ready!');
 
         if (count($this->channels) === 0) {
-            $this->logger->debug("Empty good morning channel list");
-            exit;
+            $this->logger->debug('Empty good morning channel list');
+            throw new ExitException('Empty good morning channel list');
         }
 
         $this->discord = $discord;
@@ -42,7 +46,7 @@ class GoodMorningAction
                         $currentChannelIndex++;
                         if (!isset($this->channels[$currentChannelIndex])) {
                             $this->logger->debug('Reached the end of channel list');
-                            exit(0);
+                            throw new ExitException('Reached the end of channel list');
                         }
 
                         $this->sendMessage($currentChannelIndex);
