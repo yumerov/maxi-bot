@@ -5,11 +5,12 @@ namespace Yumerov\MaxiBot\Actions;
 use Discord\Discord;
 use Discord\WebSockets\Event;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 class OnReadyAction
 {
 
-    public function __construct(private readonly OnMessageAction $action, private readonly Logger $logger)
+    public function __construct(private readonly OnMessageAction $action, private readonly LoggerInterface $logger)
     {
     }
 

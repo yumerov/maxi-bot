@@ -28,7 +28,8 @@ class OnMessageAction
         }
 
         if ($mentions->first()->id !== $discord->user->id) {
-            $this->logger->debug("Not matching the user id: (bot){$discord->user->id}<>(mentioned){$mentions->first()->id}");
+            $this->logger->debug("Not matching the user id: (bot){$discord->user->id}<"
+                . ">(mentioned){$mentions->first()->id}");
             return;
         }
 
