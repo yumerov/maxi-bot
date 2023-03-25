@@ -10,7 +10,7 @@ class EnvLoaderTest extends TestCase
 
     public function test_required(): void
     {
-        $this->assertEquals(['DISCORD_TOKEN'], EnvLoader::REQUIRED);
+        $this->assertEquals(['DISCORD_TOKEN', 'GOOD_MORNING_CHANNELS'], EnvLoader::REQUIRED);
     }
 
     public function test_valid(): void
