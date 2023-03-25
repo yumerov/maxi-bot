@@ -12,6 +12,7 @@ class EnvLoader
         'GOOD_MORNING_CHANNELS',
         'MAINTAINER',
         'ALLOWED_SERVERS',
+        'MAINTAINER_ONLY_MODE',
     ];
 
     public function __construct(private readonly string $rootDir)
