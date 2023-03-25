@@ -22,14 +22,14 @@ abstract class BaseApplication
     {
     }
 
-    public function setDiscordToken(string $token): self
+    public function setDiscordToken(string $token): static
     {
         $this->discordToken = $token;
 
         return $this;
     }
 
-    public function initEnv(): self
+    public function initEnv(): static
     {
         (new EnvLoader($this->rootDir))->load();
 
@@ -40,7 +40,7 @@ abstract class BaseApplication
      * @return $this
      * @throws Exception
      */
-    public function initClient(): self
+    public function initClient(): static
     {
         $this->setOnReadyAction();
 

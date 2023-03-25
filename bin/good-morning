@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+
+<?php
+
+use Yumerov\MaxiBot\Applications\GoodMorningApplication;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+(new GoodMorningApplication(__DIR__ . '/..'))
+    ->initEnv()
+    ->setDiscordToken($_ENV['DISCORD_TOKEN'])
+    ->setChannels($_ENV['GOOD_MORNING_CHANNELS'])
+    ->initClient()
+    ->run();

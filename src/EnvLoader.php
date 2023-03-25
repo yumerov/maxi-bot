@@ -7,7 +7,7 @@ use Dotenv\Dotenv;
 class EnvLoader
 {
 
-    public const REQUIRED = ['DISCORD_TOKEN'];
+    public const REQUIRED = ['DISCORD_TOKEN', 'GOOD_MORNING_CHANNELS'];
 
     public function __construct(private readonly string $rootDir)
     {
