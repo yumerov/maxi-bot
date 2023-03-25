@@ -2,14 +2,14 @@
 
 namespace Yumerov\MaxiBot\Applications;
 
+use Yumerov\MaxiBot\Actions\OnMessageAction;
 use Yumerov\MaxiBot\Actions\OnReadyAction;
 
 class MainApplication extends BaseApplication
 {
 
-    public function __construct(string $rootDir)
+    protected function setOnReadyAction(): void
     {
-        parent::__construct($rootDir);
-        $this->onReadyAction = new OnReadyAction();
+        $this->onReadyAction = new OnReadyAction(new OnMessageAction());
     }
 }

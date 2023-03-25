@@ -42,6 +42,8 @@ abstract class BaseApplication
      */
     public function initClient(): self
     {
+        $this->setOnReadyAction();
+
         try {
             $this->client = new DiscordClient(
                 new Discord([
@@ -56,6 +58,8 @@ abstract class BaseApplication
 
         return $this;
     }
+
+    protected abstract function setOnReadyAction(): void;
 
     public function run(): void
     {
