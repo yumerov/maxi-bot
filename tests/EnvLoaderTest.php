@@ -2,35 +2,50 @@
 
 namespace Yumerov\MaxiBot;
 
-use Dotenv\Exception\ValidationException;
 use PHPUnit\Framework\TestCase;
 
 class EnvLoaderTest extends TestCase
 {
 
+    private const REQUIRED = [
+        'DISCORD_TOKEN' => '0xtoken',
+        'GOOD_MORNING_CHANNELS' => '["0"]',
+        'MAINTAINER' => '1',
+        'ALLOWED_SERVERS' => '["2"]'
+    ];
+
     public function test_required(): void
     {
-        $this->assertEquals(['DISCORD_TOKEN', 'GOOD_MORNING_CHANNELS'], EnvLoader::REQUIRED);
+        $this->assertEquals(array_keys(self::REQUIRED), EnvLoader::REQUIRED);
     }
 
     public function test_valid(): void
     {
-        // Arrange
-        $token = '0xtoken';
-        $value = 123;
-
         // Act
-        (new EnvLoader(__DIR__ . '/valid'))->load();
+        (new EnvLoader(__DIR__ . '/resources/valid'))->load();
 
         // Assert
-        $this->assertEquals($token, $_ENV['DISCORD_TOKEN']);
-        $this->assertEquals($value, $_ENV['VALUE']);
+        foreach (self::REQUIRED as $key => $value)
+        {
+            $this->assertEquals($value, $_ENV[$key]);
+        }
     }
 
     public function test_invalid(): void
     {
-        unset($_ENV['DISCORD_TOKEN']);
-        (new EnvLoader(__DIR__ . '/invalid'))->load();
-        $this->assertNull($_ENV['DISCORD_TOKEN']);
+        // Arrange
+        foreach (self::REQUIRED as $key => $value)
+        {
+            unset($_ENV[$key]);
+        }
+
+        // Act
+        (new EnvLoader(__DIR__ . '/resources/invalid'))->load();
+
+        // Assert
+        foreach (self::REQUIRED as $key => $value)
+        {
+            $this->assertNull($_ENV[$key]);
+        }
     }
 }
