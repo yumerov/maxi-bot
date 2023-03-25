@@ -6,4 +6,4 @@ services:
       - ./:/var/www/html
     environment:
       PHP_EXTENSIONS: json,zlib,event
-    entrypoint: php /var/www/html/index.php
+    entrypoint: php /var/www/html/bin/main

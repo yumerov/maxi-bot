@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+
+<?php
+
+
+use Yumerov\MaxiBot\Applications\MainApplication;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+(new MainApplication(__DIR__ . '/..'))
+    ->initEnv()
+    ->setDiscordToken($_ENV['DISCORD_TOKEN'])
+    ->initClient()
+    ->run();
