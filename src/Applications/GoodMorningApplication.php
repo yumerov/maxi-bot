@@ -26,6 +26,6 @@ class GoodMorningApplication extends BaseApplication
 
     protected function setOnReadyAction(): void
     {
-        $this->onReadyAction = new GoodMorningAction($this->channels);
+        $this->onReadyAction = new GoodMorningAction($this->channels, $this->logger);
     }
 }

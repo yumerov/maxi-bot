@@ -4,17 +4,18 @@ namespace Yumerov\MaxiBot\Actions;
 
 use Discord\Discord;
 use Discord\WebSockets\Event;
+use Monolog\Logger;
 
 class OnReadyAction
 {
 
-    public function __construct(private readonly OnMessageAction $action)
+    public function __construct(private readonly OnMessageAction $action, private readonly Logger $logger)
     {
     }
 
     public function __invoke(Discord $discord): void
     {
-        echo "Bot is ready!", PHP_EOL; // todo: replace with monolog
+        $this->logger->debug("Bot is ready!");
 
         $discord->on(Event::MESSAGE_CREATE, $this->action);
     }

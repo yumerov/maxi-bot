@@ -10,5 +10,6 @@ require __DIR__ . '/../vendor/autoload.php';
     ->initEnv()
     ->setDiscordToken($_ENV['DISCORD_TOKEN'])
     ->setChannels($_ENV['GOOD_MORNING_CHANNELS'])
+    ->initLogger()
     ->initClient()
     ->run();

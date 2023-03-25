@@ -5,22 +5,23 @@ namespace Yumerov\MaxiBot\Actions;
 use Discord\Discord;
 use Discord\Http\Exceptions\NoPermissionsException;
 use Discord\WebSockets\Event;
+use Psr\Log\LoggerInterface;
 
 class GoodMorningAction
 {
 
     private Discord $discord;
 
-    public function __construct(private readonly array $channels)
+    public function __construct(private readonly array $channels, private readonly LoggerInterface $logger)
     {
     }
 
     public function __invoke(Discord $discord): void
     {
-        echo "[GM] Bot is ready!", PHP_EOL; // todo: replace with monolog
+        $this->logger->debug("[GM] Bot is ready!");
 
         if (count($this->channels) === 0) {
-            // log
+            $this->logger->debug("Empty good morning channel list");
             exit;
         }
 
@@ -30,7 +31,8 @@ class GoodMorningAction
 
     private function sendMessage(int $currentChannelIndex): void
     {
-        $channel = $this->discord->getChannel($this->channels[$currentChannelIndex]);
+        $channelId = $this->channels[$currentChannelIndex];
+        $channel = $this->discord->getChannel($channelId);
 
         if ($channel !== null) {
             try {
@@ -39,17 +41,17 @@ class GoodMorningAction
                     ->always(function () use ($currentChannelIndex) {
                         $currentChannelIndex++;
                         if (!isset($this->channels[$currentChannelIndex])) {
-                            // TODO: monolog
+                            $this->logger->debug('Reached the end of channel list');
                             exit(0);
                         }
 
                         $this->sendMessage($currentChannelIndex);
                     });
-            } catch (NoPermissionsException $e) {
-                // todo: monolog
+            } catch (NoPermissionsException $ex) {
+                $this->logger->error($ex->getMessage());
             }
         } else {
-            // todo: monolog
+            $this->logger->debug('Could not find the channel with id ' . $channelId);
         }
     }
 }

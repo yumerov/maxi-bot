@@ -10,6 +10,6 @@ class MainApplication extends BaseApplication
 
     protected function setOnReadyAction(): void
     {
-        $this->onReadyAction = new OnReadyAction(new OnMessageAction());
+        $this->onReadyAction = new OnReadyAction(new OnMessageAction($this->logger), $this->logger);
     }
 }
