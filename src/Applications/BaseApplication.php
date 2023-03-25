@@ -14,21 +14,21 @@ use Yumerov\MaxiBot\Exception;
 abstract class BaseApplication
 {
 
-    protected string $discordToken;
     protected DiscordClient $client;
     /**
      * @var callable
      */
     protected $onReadyAction;
     protected LoggerInterface $logger;
+    protected array $env;
 
     public function __construct(protected readonly string $rootDir)
     {
     }
 
-    public function setDiscordToken(string $token): static
+    public function setEnv(array $env): static
     {
-        $this->discordToken = $token;
+        $this->env = $env;
 
         return $this;
     }
@@ -59,7 +59,7 @@ abstract class BaseApplication
         try {
             $this->client = new DiscordClient(
                 new Discord([
-                    'token' => $this->discordToken,
+                    'token' => $this->env['DISCORD_TOKEN'],
                     'intents' => Intents::getDefaultIntents(),
                     'logger' => $this->logger
                 ]),

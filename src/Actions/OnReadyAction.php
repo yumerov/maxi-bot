@@ -4,7 +4,6 @@ namespace Yumerov\MaxiBot\Actions;
 
 use Discord\Discord;
 use Discord\WebSockets\Event;
-use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 class OnReadyAction

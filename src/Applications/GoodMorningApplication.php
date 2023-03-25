@@ -13,9 +13,9 @@ class GoodMorningApplication extends BaseApplication
     /**
      * @throws Exception
      */
-    public function setChannels(string $rawChannels): self
+    public function setChannels(): self
     {
-        $channels = json_decode($rawChannels);
+        $channels = json_decode($this->env['GOOD_MORNING_CHANNELS']);
         if ($channels === null) {
             throw new Exception('Malformed good morning channel list');
         }
