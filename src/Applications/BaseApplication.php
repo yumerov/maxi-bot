@@ -9,7 +9,7 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\DiscordClient;
 use Yumerov\MaxiBot\EnvLoader;
-use Yumerov\MaxiBot\Exception;
+use Yumerov\MaxiBot\Exceptions\Exception;
 
 abstract class BaseApplication
 {

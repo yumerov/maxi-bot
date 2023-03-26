@@ -3,7 +3,7 @@
 namespace Yumerov\MaxiBot\Applications;
 
 use Yumerov\MaxiBot\Actions\GoodMorningAction;
-use Yumerov\MaxiBot\Exception;
+use Yumerov\MaxiBot\Exceptions\Exception;
 
 class GoodMorningApplication extends BaseApplication
 {
