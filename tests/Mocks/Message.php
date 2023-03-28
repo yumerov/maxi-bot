@@ -3,8 +3,10 @@
 namespace Yumerov\MaxiBot\Mocks;
 
 use Discord\Builders\MessageBuilder;
+use Discord\Helpers\Collection;
 use Discord\Parts\Channel\Message as RealMessage;
 use Discord\Parts\Thread\Thread as DiscordThread;
+use Discord\Parts\User\User;
 use Discord\Parts\User\User as DiscordUser;
 use React\Promise\ExtendedPromiseInterface;
 
@@ -13,10 +15,15 @@ class Message extends RealMessage
 
     public ?DiscordUser $author = null;
     public ?DiscordThread $channel;
+    /**
+     * @var Collection|DiscordUser[]
+     */
+    public $mentions;
     public string $replyContent;
 
     public function __construct()
     {
+        $this->mentions = new Collection();
     }
 
     public function reply($message): ExtendedPromiseInterface

@@ -11,7 +11,8 @@ class EnvLoaderTest extends TestCase
         'DISCORD_TOKEN' => '0xtoken',
         'GOOD_MORNING_CHANNELS' => '["0"]',
         'MAINTAINER' => '1',
-        'ALLOWED_SERVERS' => '["2"]'
+        'ALLOWED_SERVERS' => '["2"]',
+        'MAINTAINER_ONLY_MODE' => 'true'
     ];
 
     public function test_required(): void
