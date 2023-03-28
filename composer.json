@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Yumerov\\MaxiBot\\": "src/"
+            "Yumerov\\MaxiBot\\": "src/",
+            "Yumerov\\MaxiBot\\Mocks\\": "tests/Mocks/"
         }
     },
     "authors": [
@@ -37,10 +38,13 @@
         ],
         "quality": [
             "@style",
-            "@test"
+            "@test",
+            "echo \"Everything is electricity and cable\""
         ]
     },
     "require": {
-        "team-reflex/discord-php": "^7.3"
+        "team-reflex/discord-php": "^7.3",
+        "vlucas/phpdotenv": "^5.5",
+        "monolog/monolog": "^3.3"
     }
 }

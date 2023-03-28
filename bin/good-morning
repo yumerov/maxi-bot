@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+
+<?php
+
+use Yumerov\MaxiBot\Applications\GoodMorningApplication;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+(new GoodMorningApplication(__DIR__ . '/..'))
+    ->initEnv()
+    ->setEnv($_ENV)
+    ->setChannels()
+    ->initLogger()
+    ->initClient()
+    ->run();
