@@ -1,1 +1,1 @@
-php bin/main
+worker: php bin/main
