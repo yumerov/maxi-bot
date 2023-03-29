@@ -21,6 +21,9 @@ class EnvLoader
 
     public function load(): void
     {
+        if (!file_exists($this->rootDir . '/.env')) {
+            return;
+        }
         $dotenv = Dotenv::createImmutable($this->rootDir);
         $dotenv->load();
         $dotenv->required(self::REQUIRED);
