@@ -5,6 +5,7 @@ namespace Yumerov\MaxiBot\Firewalls;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\Mocks\Message;
 use Yumerov\MaxiBot\Mocks\Thread;
 
@@ -74,10 +75,13 @@ class AllowedServerFirewallTest extends TestCase
         return new AllowedServerFirewall(
             $this->message,
             $this->createMock(LoggerInterface::class),
-            [
+            new EnvDTO([
+                'DISCORD_TOKEN' => '0xtoken',
+                'GOOD_MORNING_CHANNELS' => '["0"]',
                 'ALLOWED_SERVERS' => $allowedServers,
                 'MAINTAINER' => $this->maintainer,
-            ]
+                'MAINTAINER_ONLY_MODE' => 'false',
+            ])
         );
     }
 }
