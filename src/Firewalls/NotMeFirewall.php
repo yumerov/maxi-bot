@@ -5,6 +5,7 @@ namespace Yumerov\MaxiBot\Firewalls;
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\DTO\EnvDTO;
 
 class NotMeFirewall extends AbstractFirewall
 {
@@ -13,7 +14,7 @@ class NotMeFirewall extends AbstractFirewall
         private readonly Discord $discord,
         Message $message,
         LoggerInterface $logger,
-        array $env
+        EnvDTO $env
     ) {
         parent::__construct($message, $logger, $env);
     }

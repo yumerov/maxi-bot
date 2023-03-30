@@ -11,14 +11,14 @@ class MaintainerOnlyMode extends AbstractFirewall
             return true;
         }
 
-        if (strtolower($this->env['MAINTAINER_ONLY_MODE']) !== 'true') {
+        if (strtolower($this->env->maintainerOnlyMode) !== 'true') {
             return true;
         }
 
-        $maintainer = $this->env['MAINTAINER'];
+        $maintainer = $this->env->maintainer;
         $authorId = $this->message->author->id;
         if ($authorId !== $maintainer) {
-            $this->logger->warning("Non maintainer suer({$authorId}) called the bot!");
+            $this->logger->warning("Non maintainer suer($authorId) called the bot!");
             $this->message->reply('Maintainer only mode is ON. Please z tip and DM <@' . $maintainer . '>');
             return false;
         }
