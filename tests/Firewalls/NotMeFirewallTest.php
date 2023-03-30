@@ -5,6 +5,7 @@ namespace Yumerov\MaxiBot\Firewalls;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\Mocks\Discord;
 use Yumerov\MaxiBot\Mocks\Message;
 use Yumerov\MaxiBot\Mocks\User;
@@ -27,7 +28,13 @@ class NotMeFirewallTest extends TestCase
             $this->discord,
             $this->message,
             $this->createMock(LoggerInterface::class),
-            []
+            new EnvDTO([
+                'DISCORD_TOKEN' => '0xtoken',
+                'GOOD_MORNING_CHANNELS' => '["0"]',
+                'MAINTAINER' => '1',
+                'ALLOWED_SERVERS' => '["2"]',
+                'MAINTAINER_ONLY_MODE' => 'true',
+            ])
         );
     }
 

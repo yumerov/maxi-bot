@@ -5,6 +5,7 @@ namespace Yumerov\MaxiBot\Actions;
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\Firewalls\AbstractFirewall;
 use Yumerov\MaxiBot\Firewalls\AllowedServerFirewall;
 use Yumerov\MaxiBot\Firewalls\MaintainerOnlyMode;
@@ -20,7 +21,7 @@ class OnMessageAction
 
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly array $env
+        private readonly EnvDTO $env
     ) {
     }
 

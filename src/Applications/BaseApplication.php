@@ -8,6 +8,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\DiscordClient;
+use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\EnvLoader;
 use Yumerov\MaxiBot\Exceptions\Exception;
 
@@ -20,7 +21,7 @@ abstract class BaseApplication
      */
     protected $onReadyAction;
     protected LoggerInterface $logger;
-    protected array $env;
+    protected EnvDTO $env;
 
     public function __construct(protected readonly string $rootDir)
     {
@@ -28,7 +29,7 @@ abstract class BaseApplication
 
     public function setEnv(array $env): static
     {
-        $this->env = $env;
+        $this->env = new EnvDTO($env);
 
         return $this;
     }
@@ -59,7 +60,7 @@ abstract class BaseApplication
         try {
             $this->client = new DiscordClient(
                 new Discord([
-                    'token' => $this->env['DISCORD_TOKEN'],
+                    'token' => $this->env->discordToken,
                     'intents' => Intents::getDefaultIntents(),
                     'logger' => $this->logger
                 ]),

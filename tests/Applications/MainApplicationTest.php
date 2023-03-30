@@ -31,7 +31,13 @@ class MainApplicationTest extends TestCase
             }
         };
         $application->setLogger($this->createMock(LoggerInterface::class));
-        $application->setEnv([]);
+        $application->setEnv([
+            'DISCORD_TOKEN' => '0xtoken',
+            'GOOD_MORNING_CHANNELS' => '["0"]',
+            'MAINTAINER' => '1',
+            'ALLOWED_SERVERS' => '["2"]',
+            'MAINTAINER_ONLY_MODE' => 'true',
+        ]);
 
         // Act
         $application->setOnReadyAction();

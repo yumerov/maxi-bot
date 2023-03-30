@@ -5,6 +5,7 @@ namespace Yumerov\MaxiBot\Firewalls;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\Mocks\Message;
 
 class MaintainerOnlyModeTest extends TestCase
@@ -40,7 +41,13 @@ class MaintainerOnlyModeTest extends TestCase
         return new MaintainerOnlyMode(
             $this->message,
             $this->createMock(LoggerInterface::class),
-            ['MAINTAINER_ONLY_MODE' => $maintainerOnlyMode]
+            new EnvDTO([
+                'DISCORD_TOKEN' => '0xtoken',
+                'GOOD_MORNING_CHANNELS' => '["0"]',
+                'MAINTAINER' => '1',
+                'ALLOWED_SERVERS' => '["2"]',
+                'MAINTAINER_ONLY_MODE' => $maintainerOnlyMode,
+            ])
         );
     }
 }
