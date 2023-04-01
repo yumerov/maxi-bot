@@ -35,7 +35,7 @@ class ClientFactory
      * @return Discord
      * @throws IntentException
      */
-    private function getDiscord(string $token, LoggerInterface $logger): Discord
+    protected function getDiscord(string $token, LoggerInterface $logger): Discord
     {
         return new Discord([
             'token' => $token,
