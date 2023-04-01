@@ -2,6 +2,7 @@
 
 namespace Yumerov\MaxiBot\Firewalls;
 
+use Discord\Discord;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -13,11 +14,16 @@ class AllowedServerFirewallTest extends TestCase
 {
 
     private Message $message;
+    private Discord $discord;
     private string $maintainer = '0x123';
 
+    /**
+     * @throws Exception
+     */
     protected function setUp(): void
     {
         $this->message = new Message();
+        $this->discord = $this->createMock(Discord::class);
     }
 
     /**
@@ -73,6 +79,7 @@ class AllowedServerFirewallTest extends TestCase
     private function initFirewall(string $allowedServers): AllowedServerFirewall
     {
         return new AllowedServerFirewall(
+            $this->discord,
             $this->message,
             $this->createMock(LoggerInterface::class),
             new EnvDTO([

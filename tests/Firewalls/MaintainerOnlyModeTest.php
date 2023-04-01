@@ -2,6 +2,7 @@
 
 namespace Yumerov\MaxiBot\Firewalls;
 
+use Discord\Discord;
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +20,7 @@ class MaintainerOnlyModeTest extends TestCase
 
     private Message $message;
     private LoggerInterface|InvocationMocker $logger;
+    private Discord|InvocationMocker $discord;
 
     /**
      * @throws Exception
@@ -26,6 +28,7 @@ class MaintainerOnlyModeTest extends TestCase
     protected function setUp(): void
     {
         $this->message = new Message();
+        $this->discord  = $this->createMock(Discord::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
     }
@@ -69,6 +72,7 @@ class MaintainerOnlyModeTest extends TestCase
     private function initFirewall(string $maintainerOnlyMode): MaintainerOnlyMode
     {
         return new MaintainerOnlyMode(
+            $this->discord,
             $this->message,
             $this->logger,
             $this->createEnvDTO(maintainerOnlyMode: $maintainerOnlyMode, maintainer: self::MAINTAINER)

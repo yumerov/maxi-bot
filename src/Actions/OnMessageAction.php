@@ -29,8 +29,8 @@ class OnMessageAction
     {
         $this->firewalls = [
             new NotMeFirewall($discord, $message, $this->logger, $this->env),
-            new AllowedServerFirewall($message, $this->logger, $this->env),
-            new MaintainerOnlyMode($message, $this->logger, $this->env),
+            new AllowedServerFirewall($discord, $message, $this->logger, $this->env),
+            new MaintainerOnlyMode($discord, $message, $this->logger, $this->env),
         ];
     }
 
