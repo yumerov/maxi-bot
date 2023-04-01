@@ -32,13 +32,19 @@
         "test": [
             "phpunit"
         ],
+        "test-covertage": [
+            "bash test-coverage.sh"
+        ],
+        "tc": [
+            "@test-covertage"
+        ],
         "style": [
             "phpcs",
             "phpstan analyse"
         ],
         "quality": [
             "@style",
-            "@test",
+            "@test-covertage",
             "echo \"Everything is electricity and cable\""
         ]
     },

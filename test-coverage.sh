@@ -1,0 +1,1 @@
+phpunit --coverage-text | grep "Lines" | grep -v "Methods" | sed "s/\sLines\://g" | sed "s/%.*//g" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | awk '{if ($0 > 80) exit 0; else exit 1;}' || echo "Test coverage under 80%" && exit 1;
