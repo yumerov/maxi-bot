@@ -44,6 +44,17 @@ class NotMeFirewallTest extends TestCase
         $this->assertFalse($this->firewall->allow());
     }
 
+    public function test_author_is_both(): void
+    {
+        // Arrange
+        $this->message->author = new User('0');
+        $this->message->author->bot = true;
+        $this->discord->user = new User('1');
+
+        // Act && Assert
+        $this->assertFalse($this->firewall->allow());
+    }
+
     public function test_author_is_this(): void
     {
         // Arrange

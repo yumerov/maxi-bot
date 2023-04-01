@@ -52,6 +52,8 @@ abstract class BaseApplication
     public function initClientFactory(): static
     {
         $this->clientFactory = new ClientFactory();
+
+        return $this;
     }
 
     /**

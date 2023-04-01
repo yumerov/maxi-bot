@@ -15,14 +15,17 @@ trait EnvTrait
         'MAINTAINER_ONLY_MODE' => 'true'
     ];
 
-    protected function createEnvDTO(string $goodMorningChannels = '[]'): EnvDTO
-    {
+    protected function createEnvDTO(
+        string $goodMorningChannels = '[]',
+        string $maintainerOnlyMode = 'false',
+        string $maintainer = '1'
+    ): EnvDTO {
         return new EnvDTO([
             'DISCORD_TOKEN' => '0xtoken',
             'GOOD_MORNING_CHANNELS' => $goodMorningChannels,
             'MAINTAINER' => '1',
             'ALLOWED_SERVERS' => '["2"]',
-            'MAINTAINER_ONLY_MODE' => 'true',
+            'MAINTAINER_ONLY_MODE' => $maintainerOnlyMode,
         ]);
     }
 
