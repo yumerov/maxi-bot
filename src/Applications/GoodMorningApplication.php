@@ -4,20 +4,21 @@ namespace Yumerov\MaxiBot\Applications;
 
 use Yumerov\MaxiBot\Actions\GoodMorningAction;
 use Yumerov\MaxiBot\Exceptions\Exception;
+use Yumerov\MaxiBot\Exceptions\MalformedGoodMorningChannelListException;
 
 class GoodMorningApplication extends BaseApplication
 {
 
-    private array $channels;
+    protected array $channels;
 
     /**
      * @throws Exception
      */
     public function setChannels(): self
     {
-        $channels = json_decode($this->env['GOOD_MORNING_CHANNELS']);
+        $channels = json_decode($this->env->goodMorningChannels);
         if ($channels === null) {
-            throw new Exception('Malformed good morning channel list');
+            throw new MalformedGoodMorningChannelListException();
         }
         $this->channels = $channels;
 
