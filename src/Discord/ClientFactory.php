@@ -6,7 +6,6 @@ use Discord\Discord;
 use Discord\Exceptions\IntentException;
 use Discord\WebSockets\Intents;
 use Psr\Log\LoggerInterface;
-use Yumerov\MaxiBot\DiscordClient;
 use Yumerov\MaxiBot\Exceptions\DiscordClientInitException;
 
 class ClientFactory

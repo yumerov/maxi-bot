@@ -1,6 +1,6 @@
 <?php
 
-namespace Yumerov\MaxiBot;
+namespace Yumerov\MaxiBot\Discord;
 
 use Discord\Discord;
 use PHPUnit\Framework\TestCase;

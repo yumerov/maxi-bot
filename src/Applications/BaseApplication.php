@@ -2,13 +2,11 @@
 
 namespace Yumerov\MaxiBot\Applications;
 
-use Discord\Discord;
-use Discord\WebSockets\Intents;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\Discord\ClientFactory;
-use Yumerov\MaxiBot\DiscordClient;
+use Yumerov\MaxiBot\Discord\DiscordClient;
 use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\EnvLoader;
 use Yumerov\MaxiBot\Exceptions\Exception;

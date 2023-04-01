@@ -4,7 +4,6 @@ namespace Yumerov\MaxiBot\Applications;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Yumerov\MaxiBot\DiscordClient;
 use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
 
 class BaseApplicationTest extends TestCase
