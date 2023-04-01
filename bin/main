@@ -10,6 +10,5 @@ require __DIR__ . '/../vendor/autoload.php';
 (new MainApplication(__DIR__ . '/..'))
     ->initEnv()
     ->setEnv($_ENV)
-    ->initLogger()
-    ->initClient()
+    ->init()
     ->run();

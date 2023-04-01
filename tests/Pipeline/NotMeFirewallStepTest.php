@@ -1,6 +1,6 @@
 <?php
 
-namespace Yumerov\MaxiBot\Firewalls;
+namespace Yumerov\MaxiBot\Pipeline;
 
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -10,10 +10,10 @@ use Yumerov\MaxiBot\Mocks\Discord;
 use Yumerov\MaxiBot\Mocks\Message;
 use Yumerov\MaxiBot\Mocks\User;
 
-class NotMeFirewallTest extends TestCase
+class NotMeFirewallStepTest extends TestCase
 {
 
-    private NotMeFirewall $firewall;
+    private NotMeFirewallStep $firewall;
     private Discord $discord;
     private Message $message;
 
@@ -24,7 +24,7 @@ class NotMeFirewallTest extends TestCase
     {
         $this->discord = new Discord();
         $this->message = new Message();
-        $this->firewall = new NotMeFirewall(
+        $this->firewall = new NotMeFirewallStep(
             $this->discord,
             $this->message,
             $this->createMock(LoggerInterface::class),
@@ -40,6 +40,17 @@ class NotMeFirewallTest extends TestCase
 
     public function test_null_author(): void
     {
+        // Act && Assert
+        $this->assertFalse($this->firewall->allow());
+    }
+
+    public function test_author_is_both(): void
+    {
+        // Arrange
+        $this->message->author = new User('0');
+        $this->message->author->bot = true;
+        $this->discord->user = new User('1');
+
         // Act && Assert
         $this->assertFalse($this->firewall->allow());
     }

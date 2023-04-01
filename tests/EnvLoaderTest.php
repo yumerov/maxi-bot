@@ -3,9 +3,12 @@
 namespace Yumerov\MaxiBot;
 
 use PHPUnit\Framework\TestCase;
+use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
 
 class EnvLoaderTest extends TestCase
 {
+
+    use EnvTrait;
 
     private const REQUIRED = [
         'DISCORD_TOKEN' => '0xtoken',
@@ -35,10 +38,7 @@ class EnvLoaderTest extends TestCase
     public function test_invalid(): void
     {
         // Arrange
-        foreach (self::REQUIRED as $key => $value)
-        {
-            unset($_ENV[$key]);
-        }
+        $this->unsetEnv(array_keys(self::REQUIRED));
 
         // Act
         (new EnvLoader(__DIR__ . '/resources/invalid'))->load();

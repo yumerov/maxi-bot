@@ -1,8 +1,8 @@
 <?php
 
-namespace Yumerov\MaxiBot\Firewalls;
+namespace Yumerov\MaxiBot\Pipeline;
 
-class MaintainerOnlyMode extends AbstractFirewall
+class MaintainerOnlyModeStep extends AbstractFirewall
 {
 
     public function allow(): bool
