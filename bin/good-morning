@@ -10,6 +10,5 @@ require __DIR__ . '/../vendor/autoload.php';
     ->initEnv()
     ->setEnv($_ENV)
     ->setChannels()
-    ->initLogger()
-    ->initClient()
+    ->init()
     ->run();

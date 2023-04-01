@@ -7,6 +7,7 @@ use Discord\WebSockets\Intents;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\Discord\ClientFactory;
 use Yumerov\MaxiBot\DiscordClient;
 use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\EnvLoader;
@@ -16,6 +17,7 @@ abstract class BaseApplication
 {
 
     protected DiscordClient $client;
+    protected ClientFactory $clientFactory;
     /**
      * @var callable
      */
@@ -44,9 +46,14 @@ abstract class BaseApplication
     public function initLogger(): static
     {
         $this->logger = new Logger('main');
-        $this->logger->pushHandler(new StreamHandler($this->rootDir. '/var/logs/log.log'));
+        $this->logger->pushHandler(new StreamHandler($this->rootDir . '/var/logs/log.log'));
 
         return $this;
+    }
+
+    public function initClientFactory(): static
+    {
+        $this->clientFactory = new ClientFactory();
     }
 
     /**
@@ -57,18 +64,24 @@ abstract class BaseApplication
     {
         $this->setOnReadyAction();
 
-        try {
-            $this->client = new DiscordClient(
-                new Discord([
-                    'token' => $this->env->discordToken,
-                    'intents' => Intents::getDefaultIntents(),
-                    'logger' => $this->logger
-                ]),
-                $this->onReadyAction
-            );
-        } catch (\Exception $ex) {
-            throw new Exception(message: 'Failed to init Discord client', previous: $ex);
-        }
+        $this->client = $this->clientFactory->create(
+            $this->env->discordToken,
+            $this->logger,
+            $this->onReadyAction
+        );
+
+        return $this;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function init(): static
+    {
+        $this
+            ->initLogger()
+            ->initClientFactory()
+            ->initClient();
 
         return $this;
     }

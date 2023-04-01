@@ -8,12 +8,12 @@ use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\Actions\GoodMorningAction;
 use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\Exceptions\MalformedGoodMorningChannelListException;
-use Yumerov\MaxiBot\Mocks\Traits\EnvDTOTrait;
+use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
 
 class GoodMorningApplicationTest extends TestCase
 {
 
-    use EnvDTOTrait;
+    use EnvTrait;
 
     public function test_setChannels_malformed(): void
     {
