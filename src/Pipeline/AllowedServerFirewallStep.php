@@ -1,8 +1,8 @@
 <?php
 
-namespace Yumerov\MaxiBot\Firewalls;
+namespace Yumerov\MaxiBot\Pipeline;
 
-class AllowedServerFirewall extends AbstractFirewall
+class AllowedServerFirewallStep extends AbstractFirewall
 {
 
     public function allow(): bool

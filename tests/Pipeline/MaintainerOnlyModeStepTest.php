@@ -1,6 +1,6 @@
 <?php
 
-namespace Yumerov\MaxiBot\Firewalls;
+namespace Yumerov\MaxiBot\Pipeline;
 
 use Discord\Discord;
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
@@ -11,7 +11,7 @@ use Yumerov\MaxiBot\Mocks\Message;
 use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
 use Yumerov\MaxiBot\Mocks\User;
 
-class MaintainerOnlyModeTest extends TestCase
+class MaintainerOnlyModeStepTest extends TestCase
 {
 
     use EnvTrait;
@@ -69,9 +69,9 @@ class MaintainerOnlyModeTest extends TestCase
         $this->assertTrue($this->initFirewall('true')->allow());
     }
 
-    private function initFirewall(string $maintainerOnlyMode): MaintainerOnlyMode
+    private function initFirewall(string $maintainerOnlyMode): MaintainerOnlyModeStep
     {
-        return new MaintainerOnlyMode(
+        return new MaintainerOnlyModeStep(
             $this->discord,
             $this->message,
             $this->logger,

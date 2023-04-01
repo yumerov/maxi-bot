@@ -1,9 +1,8 @@
 <?php
 
-namespace Yumerov\MaxiBot\Firewalls;
+namespace Yumerov\MaxiBot\Pipeline;
 
-
-class NotMeFirewall extends AbstractFirewall
+class NotMeFirewallStep extends AbstractFirewall
 {
 
     public function allow(): bool
