@@ -38,24 +38,25 @@ class GoodMorningAction
         $channelId = $this->channels[$currentChannelIndex];
         $channel = $this->discord->getChannel($channelId);
 
-        if ($channel !== null) {
-            try {
-                $channel
-                    ->sendMessage('Добро утро, общество!')
-                    ->always(function () use ($currentChannelIndex) {
-                        $currentChannelIndex++;
-                        if (!isset($this->channels[$currentChannelIndex])) {
-                            $this->logger->debug('Reached the end of channel list');
-                            throw new ExitException('Reached the end of channel list');
-                        }
-
-                        $this->sendMessage($currentChannelIndex);
-                    });
-            } catch (NoPermissionsException $ex) {
-                $this->logger->error($ex->getMessage());
-            }
-        } else {
+        if ($channel === null) {
             $this->logger->debug('Could not find the channel with id ' . $channelId);
+            return;
+        }
+
+        try {
+            $channel
+                ->sendMessage('Добро утро, общество!')
+                ->always(function () use ($currentChannelIndex) {
+                    $currentChannelIndex++;
+                    if (!isset($this->channels[$currentChannelIndex])) {
+                        $this->logger->debug('Reached the end of channel list');
+                        throw new ExitException('Reached the end of channel list');
+                    }
+
+                    $this->sendMessage($currentChannelIndex);
+                });
+        } catch (NoPermissionsException $ex) {
+            $this->logger->error($ex->getMessage());
         }
     }
 }
