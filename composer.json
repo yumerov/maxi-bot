@@ -33,6 +33,9 @@
         "test": [
             "phpunit"
         ],
+        "test-stop": [
+            "phpunit --stop-on-error --stop-on-failure"
+        ],
         "test-covertage": [
             "bash test-coverage.sh"
         ],

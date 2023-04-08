@@ -2,7 +2,9 @@
 
 namespace Yumerov\MaxiBot\Applications;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Yumerov\MaxiBot\Discord\DiscordInterface;
 
 abstract class BaseApplication
@@ -16,6 +18,10 @@ abstract class BaseApplication
     {
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function initClient(): static
     {
         $this->setOnReadyAction();
