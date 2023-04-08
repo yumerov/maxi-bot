@@ -10,8 +10,10 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionException;
+use Yumerov\MaxiBot\Pipeline\Steps\AbstractStep;
+use Yumerov\MaxiBot\Pipeline\Steps\StepInterface;
 
-class StepFactory
+class StepFactory implements StepFactoryInterface
 {
 
     public function __construct(

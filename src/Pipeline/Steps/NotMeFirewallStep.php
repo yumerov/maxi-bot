@@ -1,6 +1,6 @@
 <?php
 
-namespace Yumerov\MaxiBot\Pipeline;
+namespace Yumerov\MaxiBot\Pipeline\Steps;
 
 class NotMeFirewallStep extends AbstractFirewall
 {

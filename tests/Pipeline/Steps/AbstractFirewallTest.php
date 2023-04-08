@@ -5,6 +5,7 @@ namespace Yumerov\MaxiBot\Pipeline;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\Pipeline\Steps\AbstractFirewall;
 
 class AbstractFirewallTest extends TestCase
 {

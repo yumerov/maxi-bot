@@ -1,6 +1,6 @@
 <?php
 
-namespace Yumerov\MaxiBot\Pipeline;
+namespace Yumerov\MaxiBot\Pipeline\Steps;
 
 class NoSecondBestStep extends AbstractStep implements StepInterface
 {

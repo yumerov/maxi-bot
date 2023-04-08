@@ -19,6 +19,24 @@ class EnvLoaderTest extends TestCase
         'MAINTAINER_ONLY_MODE' => 'true'
     ];
 
+    public function test_not_existing(): void
+    {
+        // Arrange
+        foreach (self::REQUIRED as $key => $value)
+        {
+            unset($_ENV[$key]);
+        }
+
+        // Act
+        $this->initEnvLoader('not-existing')->load();
+
+        // Assert
+        foreach (self::REQUIRED as $key => $value)
+        {
+            $this->assertNull($_ENV[$key]);
+        }
+    }
+
     public function test_required(): void
     {
         $this->assertEquals(array_keys(self::REQUIRED), EnvLoader::REQUIRED);

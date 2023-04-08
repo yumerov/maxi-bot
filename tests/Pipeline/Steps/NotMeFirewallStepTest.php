@@ -9,6 +9,7 @@ use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\Mocks\Discord;
 use Yumerov\MaxiBot\Mocks\Message;
 use Yumerov\MaxiBot\Mocks\User;
+use Yumerov\MaxiBot\Pipeline\Steps\NotMeFirewallStep;
 
 class NotMeFirewallStepTest extends TestCase
 {

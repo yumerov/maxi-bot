@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\Mocks\Message;
 use Yumerov\MaxiBot\Mocks\User;
+use Yumerov\MaxiBot\Pipeline\Steps\MaintainerOnlyModeStep;
 
 class MaintainerOnlyModeStepTest extends TestCase
 {

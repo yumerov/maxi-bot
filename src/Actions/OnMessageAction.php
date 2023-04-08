@@ -4,16 +4,13 @@ namespace Yumerov\MaxiBot\Actions;
 
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
-use ReflectionException;
 use Yumerov\MaxiBot\Exceptions\Exception;
-use Yumerov\MaxiBot\Pipeline\AllowedServerFirewallStep;
-use Yumerov\MaxiBot\Pipeline\MaintainerOnlyModeStep;
-use Yumerov\MaxiBot\Pipeline\NoSecondBestStep;
-use Yumerov\MaxiBot\Pipeline\NotMeFirewallStep;
-use Yumerov\MaxiBot\Pipeline\StepFactory;
+use Yumerov\MaxiBot\Pipeline\StepFactoryInterface;
+use Yumerov\MaxiBot\Pipeline\Steps\AllowedServerFirewallStep;
+use Yumerov\MaxiBot\Pipeline\Steps\MaintainerOnlyModeStep;
+use Yumerov\MaxiBot\Pipeline\Steps\NoSecondBestStep;
+use Yumerov\MaxiBot\Pipeline\Steps\NotMeFirewallStep;
 
 class OnMessageAction
 {
@@ -30,15 +27,15 @@ class OnMessageAction
 
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly StepFactory $factory
+        private readonly StepFactoryInterface $factory
     ) {
     }
 
     /**
+     * @param Message $message
+     * @param Discord $discord
+     * @return void
      * @throws Exception
-     * @throws NotFoundExceptionInterface
-     * @throws ContainerExceptionInterface
-     * @throws ReflectionException
      */
     public function __invoke(Message $message, Discord $discord): void
     {

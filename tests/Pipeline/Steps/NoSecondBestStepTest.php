@@ -7,6 +7,7 @@ use Discord\Parts\Channel\Message;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\Pipeline\Steps\NoSecondBestStep;
 
 class NoSecondBestStepTest extends TestCase
 {

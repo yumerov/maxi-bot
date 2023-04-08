@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\Mocks\Message;
 use Yumerov\MaxiBot\Mocks\Thread;
+use Yumerov\MaxiBot\Pipeline\Steps\AllowedServerFirewallStep;
 
 class AllowedServerFirewallStepTest extends TestCase
 {

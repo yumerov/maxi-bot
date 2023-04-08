@@ -50,6 +50,20 @@ class BaseApplicationTest extends TestCase
         $this->assertNotNull($instance->getClient());
     }
 
+    public function test_run(): void
+    {
+        // Arrange
+        $discord = $this->createMock(DiscordInterface::class);
+        $discord
+            ->expects($this->once())
+            ->method('run');
+        $app = $this->initApplication();
+        $app->setClient($discord);
+
+        // Act
+        $app->run();
+    }
+
     private function initApplication()
     {
         return new class($this->container, $this->onReadyAction) extends BaseApplication
@@ -69,6 +83,11 @@ class BaseApplicationTest extends TestCase
             public function getClient(): DiscordInterface
             {
                 return $this->client;
+            }
+
+            public function setClient(DiscordInterface $discord)
+            {
+                $this->client = $discord;
             }
         };
     }
