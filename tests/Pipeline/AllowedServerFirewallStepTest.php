@@ -29,17 +29,9 @@ class AllowedServerFirewallStepTest extends TestCase
     /**
      * @throws Exception
      */
-    public function test_malformed_data(): void
-    {
-        $this->assertFalse($this->initFirewall('[')->allow());
-    }
-
-    /**
-     * @throws Exception
-     */
     public function test_empty_allow_list(): void
     {
-        $this->assertFalse($this->initFirewall('[]')->allow());
+        $this->assertFalse($this->initFirewall([])->allow());
     }
 
     /**
@@ -51,7 +43,7 @@ class AllowedServerFirewallStepTest extends TestCase
         $this->message->channel = new Thread('1');
 
         // Act
-        $isAllowed = $this->initFirewall('["0"]')->allow();
+        $isAllowed = $this->initFirewall(["0"])->allow();
 
         // Assert
         $this->assertFalse($isAllowed);
@@ -70,25 +62,20 @@ class AllowedServerFirewallStepTest extends TestCase
         $this->message->channel = new Thread('0');
 
         // Act && Assert
-        $this->assertTrue($this->initFirewall('["0"]')->allow());
+        $this->assertTrue($this->initFirewall(["0"])->allow());
     }
 
     /**
      * @throws Exception
      */
-    private function initFirewall(string $allowedServers): AllowedServerFirewallStep
+    private function initFirewall(array $allowedServers): AllowedServerFirewallStep
     {
-        return new AllowedServerFirewallStep(
-            $this->discord,
-            $this->message,
+        return (new AllowedServerFirewallStep(
             $this->createMock(LoggerInterface::class),
-            new EnvDTO([
-                'DISCORD_TOKEN' => '0xtoken',
-                'GOOD_MORNING_CHANNELS' => '["0"]',
-                'ALLOWED_SERVERS' => $allowedServers,
-                'MAINTAINER' => $this->maintainer,
-                'MAINTAINER_ONLY_MODE' => 'false',
-            ])
-        );
+            $allowedServers,
+            $this->maintainer
+        ))
+            ->setDiscord($this->discord)
+            ->setMessage($this->message);
     }
 }

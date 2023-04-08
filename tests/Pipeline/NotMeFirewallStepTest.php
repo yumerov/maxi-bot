@@ -24,18 +24,9 @@ class NotMeFirewallStepTest extends TestCase
     {
         $this->discord = new Discord();
         $this->message = new Message();
-        $this->firewall = new NotMeFirewallStep(
-            $this->discord,
-            $this->message,
-            $this->createMock(LoggerInterface::class),
-            new EnvDTO([
-                'DISCORD_TOKEN' => '0xtoken',
-                'GOOD_MORNING_CHANNELS' => '["0"]',
-                'MAINTAINER' => '1',
-                'ALLOWED_SERVERS' => '["2"]',
-                'MAINTAINER_ONLY_MODE' => 'true',
-            ])
-        );
+        $this->firewall = new NotMeFirewallStep($this->createMock(LoggerInterface::class));
+        $this->firewall->setDiscord($this->discord);
+        $this->firewall->setMessage($this->message);
     }
 
     public function test_null_author(): void

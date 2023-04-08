@@ -25,6 +25,8 @@ class DiscordClientTest extends TestCase
             ->method('run');
 
         // Act
-        (new DiscordClient($discord, $action))->run();
+        $client = new DiscordClient($discord);
+        $client->setOnReadyAction($action);
+        $client->run();
     }
 }
