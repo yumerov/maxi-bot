@@ -6,7 +6,7 @@ use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Psr\Log\LoggerInterface;
 
-class AbstractStep
+abstract class AbstractStep implements StepInterface
 {
 
     protected Discord $discord;
@@ -16,13 +16,13 @@ class AbstractStep
     {
     }
 
-    public function setDiscord(Discord $discord): AbstractStep
+    public function setDiscord(Discord $discord): static
     {
         $this->discord = $discord;
         return $this;
     }
 
-    public function setMessage(Message $message): AbstractStep
+    public function setMessage(Message $message): static
     {
         $this->message = $message;
         return $this;

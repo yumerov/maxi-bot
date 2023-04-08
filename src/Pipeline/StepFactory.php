@@ -25,20 +25,15 @@ class StepFactory
      * @param Message $message
      * @param Discord $discord
      *
-     * @return AbstractStep|null
+     * @return StepInterface|null
      *
      * @throws ReflectionException
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function create(string $class, Message $message, Discord $discord): ?AbstractStep
+    public function create(string $class, Message $message, Discord $discord): ?StepInterface
     {
         $reflectionClass = new ReflectionClass($class);
-
-        if (!$reflectionClass->isSubclassOf(AbstractStep::class)) {
-            $this->logger->warning($class . ' is not child of ' . AbstractStep::class);
-            return null;
-        }
 
         if (! $reflectionClass->implementsInterface(StepInterface::class)) {
             $this->logger->warning($class  . ' does not implements ' . AbstractStep::class);
@@ -46,7 +41,7 @@ class StepFactory
         }
 
         /**
-         * @var AbstractStep $step
+         * @var StepInterface $step
          */
         $step = $this->container->get($reflectionClass->getShortName());
 
