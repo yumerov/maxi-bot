@@ -3,10 +3,7 @@
 namespace Yumerov\MaxiBot\Applications;
 
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
-use Yumerov\MaxiBot\Discord\DiscordClient;
 use Yumerov\MaxiBot\Discord\DiscordInterface;
-use Yumerov\MaxiBot\DTO\EnvDTO;
 
 abstract class BaseApplication
 {
@@ -14,8 +11,6 @@ abstract class BaseApplication
     protected DiscordInterface $client;
     /** @var callable */
     protected $onReadyAction;
-    protected LoggerInterface $logger;
-    protected EnvDTO $env;
 
     public function __construct(protected readonly ContainerInterface $container)
     {

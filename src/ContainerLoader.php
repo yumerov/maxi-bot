@@ -6,14 +6,31 @@ use Symfony\Component\Config\FileLocator;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Yumerov\MaxiBot\Exceptions\Exception;
 
-class ContainerLoader
+class ContainerLoader implements ContainerInterface
 {
+    private static ?self $instance;
+
     public function __construct(
         private readonly string $rootDir,
         private readonly EnvLoader $envLoader,
         private readonly ContainerBuilder $container
     ) {
+        self::$instance = $this;
+    }
+
+    /**
+     * @return ContainerLoader|null
+     * @throws Exception
+     */
+    public static function getInstance(): ?ContainerLoader
+    {
+        if (self::$instance === null) {
+            throw new Exception('Container is not loaded');
+        }
+
+        return self::$instance;
     }
 
     public function load(): ContainerInterface
@@ -28,5 +45,18 @@ class ContainerLoader
         $this->container->compile(true);
 
         return $this->container;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function get(string $id)
+    {
+        return $this->container->get($id);
+    }
+
+    public function has(string $id): bool
+    {
+        return $this->container->has($id);
     }
 }

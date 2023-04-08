@@ -1,14 +1,21 @@
 <?php
 
 use JetBrains\PhpStorm\NoReturn;
+use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\ContainerLoader;
 
-#[NoReturn] function dd($arg): void
+function dd($arg): void
 {
     var_dump($arg);
     die;
 }
 
-function logger(): void
+/**
+ * @return LoggerInterface
+ * @throws \Yumerov\MaxiBot\Exceptions\Exception
+ * @throws Exception
+ */
+function logger(): LoggerInterface
 {
-
+    return ContainerLoader::getInstance()->get('Logger');
 }

@@ -39,6 +39,14 @@ services:
       - '@Logger'
       - '@StepFactory'
 
+  GoodMorningAction:
+    shared: true
+    public: true
+    class: 'Yumerov\MaxiBot\Actions\GoodMorningAction'
+    arguments:
+      - '%gm.channels%'
+      - '@Logger'
+
   OnReadyAction:
     shared: true
     public: true
