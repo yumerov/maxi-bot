@@ -3,7 +3,9 @@
 namespace Yumerov\MaxiBot\Applications;
 
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\Actions\GoodMorningAction;
 use Yumerov\MaxiBot\DTO\EnvDTO;
@@ -13,30 +15,20 @@ use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
 class GoodMorningApplicationTest extends TestCase
 {
 
-    use EnvTrait;
+    private $onReadyAction;
+    private ContainerInterface|MockObject $container;
 
-    public function test_setChannels_malformed(): void
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    protected function setUp(): void
     {
-        // Pre assert
-        $this->expectException(MalformedGoodMorningChannelListException::class);
-        $this->expectExceptionMessage('Malformed good morning channel list');
-
-        // Act
-        $instance = $this->initApplication('[')->setChannels();
-    }
-
-    public function test_setChannels_successfully(): void
-    {
-        // Arrange
-        $channels = ["0xchannel"];
-
-        // Act
-        $instance = $this->initApplication("[\"$channels[0]\"]")
-            ->setChannels();
-
-        // Assert
-        $this->assertInstanceOf(GoodMorningApplication::class, $instance);
-        $this->assertEquals($channels, $instance->getChannels());
+        $this->onReadyAction = new class {
+            public function __invoke(): void
+            {
+            }
+        };
+        $this->container = $this->createMock(ContainerInterface::class);
     }
 
     /**
@@ -45,10 +37,12 @@ class GoodMorningApplicationTest extends TestCase
     public function test_setOnReadyAction(): void
     {
         // Arrange
-        $channels = ["0xchannel"];
-        $instance = $this->initApplication("[\"$channels[0]\"]");
-        $instance->setChannels();
-        $instance->setLogger($this->createMock(LoggerInterface::class));
+        $instance = $this->initApplication();
+        $this->container
+            ->expects($this->once())
+            ->method('get')
+            ->with('GoodMorningAction')
+            ->willReturn($this->createMock(GoodMorningAction::class));
 
         // Act
         $instance->setOnReadyAction();
@@ -57,32 +51,19 @@ class GoodMorningApplicationTest extends TestCase
         $this->assertInstanceOf(GoodMorningAction::class, $instance->getOnReadyAction());
     }
 
-    /**
-     * @throws Exception
-     */
-    private function initApplication(string $channels = '["0"]')
-    {
-        return new class($this->createEnvDTO($channels)) extends GoodMorningApplication {
-            public function __construct(EnvDTO $env)
-            {
-                $this->env = $env;
-            }
 
-            public function getChannels(): array
-            {
-                return $this->channels;
-            }
+    private function initApplication()
+    {
+        return new class($this->container) extends GoodMorningApplication {
+
             public function getOnReadyAction(): callable
             {
                 return  $this->onReadyAction;
             }
+
             public function setOnReadyAction(): void
             {
                 parent::setOnReadyAction();
-            }
-            public function setLogger(LoggerInterface $logger)
-            {
-                $this->logger = $logger;
             }
         };
     }

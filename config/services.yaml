@@ -1,0 +1,84 @@
+services:
+  Logger:
+    class: 'Monolog\Logger'
+    arguments:
+      - 'logger'
+    calls:
+      - [ 'pushHandler', [ '@Handler' ] ]
+    shared: true
+
+  Handler:
+    class: 'Monolog\Handler\StreamHandler'
+    arguments:
+      - '%kernel.logs_dir%/app.log'
+
+  BaseDiscord:
+    shared: true
+    class: 'Discord\Discord'
+    arguments:
+      - {token: '%discord.token%', intents: '%discord.intents%', logger: '@Logger'}
+
+  Discord:
+    shared: true
+    public: true
+    class: 'Yumerov\MaxiBot\Discord\DiscordClient'
+    arguments:
+      - '@BaseDiscord'
+
+  StepFactory:
+    shared: true
+    class: 'Yumerov\MaxiBot\Pipeline\StepFactory'
+    arguments:
+      - '@Logger'
+      - '@Container'
+
+  OnMessageAction:
+    shared: true
+    class: 'Yumerov\MaxiBot\Actions\OnMessageAction'
+    arguments:
+      - '@Logger'
+      - '@StepFactory'
+
+  GoodMorningAction:
+    shared: true
+    public: true
+    class: 'Yumerov\MaxiBot\Actions\GoodMorningAction'
+    arguments:
+      - '%gm.channels%'
+      - '@Logger'
+
+  OnReadyAction:
+    shared: true
+    public: true
+    class: 'Yumerov\MaxiBot\Actions\OnReadyAction'
+    arguments:
+      - '@OnMessageAction'
+      - '@Logger'
+
+  NotMeFirewallStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\NotMeFirewallStep'
+    arguments:
+      - '@Logger'
+
+  AllowedServerFirewallStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\AllowedServerFirewallStep'
+    arguments:
+      - '@Logger'
+      - '%discord.allowed_servers%'
+      - '%discord.maintainer%'
+
+  MaintainerOnlyModeStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\MaintainerOnlyModeStep'
+    arguments:
+      - '@Logger'
+      - '%discord.maintainer%'
+      - '%discord.maintainer_only_mode%'
+
+  NoSecondBestStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\NoSecondBestStep'
+    arguments:
+      - '@Logger'

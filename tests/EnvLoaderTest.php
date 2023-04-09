@@ -2,21 +2,40 @@
 
 namespace Yumerov\MaxiBot;
 
+use http\Encoding\Stream\Debrotli;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
+use Symfony\Component\Dotenv\Dotenv;
 use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
 
 class EnvLoaderTest extends TestCase
 {
 
-    use EnvTrait;
-
     private const REQUIRED = [
         'DISCORD_TOKEN' => '0xtoken',
-        'GOOD_MORNING_CHANNELS' => '["0"]',
-        'MAINTAINER' => '1',
-        'ALLOWED_SERVERS' => '["2"]',
+        'GOOD_MORNING_CHANNELS' => '[0]',
+        'MAINTAINER' => 1,
+        'ALLOWED_SERVERS' => '[2]',
         'MAINTAINER_ONLY_MODE' => 'true'
     ];
+
+    public function test_not_existing(): void
+    {
+        // Arrange
+        foreach (self::REQUIRED as $key => $value)
+        {
+            unset($_ENV[$key]);
+        }
+
+        // Act
+        $this->initEnvLoader('not-existing')->load();
+
+        // Assert
+        foreach (self::REQUIRED as $key => $value)
+        {
+            $this->assertNull($_ENV[$key]);
+        }
+    }
 
     public function test_required(): void
     {
@@ -26,7 +45,7 @@ class EnvLoaderTest extends TestCase
     public function test_valid(): void
     {
         // Act
-        (new EnvLoader(__DIR__ . '/resources/valid'))->load();
+        $this->initEnvLoader('valid')->load();
 
         // Assert
         foreach (self::REQUIRED as $key => $value)
@@ -38,15 +57,20 @@ class EnvLoaderTest extends TestCase
     public function test_invalid(): void
     {
         // Arrange
-        $this->unsetEnv(array_keys(self::REQUIRED));
-
-        // Act
-        (new EnvLoader(__DIR__ . '/resources/invalid'))->load();
-
-        // Assert
         foreach (self::REQUIRED as $key => $value)
         {
-            $this->assertNull($_ENV[$key]);
+            unset($_ENV[$key]);
         }
+
+        // Assert
+        $this->expectException(EnvNotFoundException::class);
+
+        // Act
+        $this->initEnvLoader('invalid')->load();
+    }
+
+    private function initEnvLoader($dir): EnvLoader
+    {
+        return new EnvLoader(__DIR__ . '/resources/' . $dir, new Dotenv());
     }
 }

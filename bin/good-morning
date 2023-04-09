@@ -2,13 +2,21 @@
 
 <?php
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Dotenv\Dotenv;
 use Yumerov\MaxiBot\Applications\GoodMorningApplication;
+use Yumerov\MaxiBot\ContainerLoader;
+use Yumerov\MaxiBot\EnvLoader;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(new GoodMorningApplication(__DIR__ . '/..'))
-    ->initEnv()
-    ->setEnv($_ENV)
-    ->setChannels()
-    ->init()
-    ->run();
+$rootDir = dirname(__DIR__);
+$loader = new ContainerLoader(
+    $rootDir,
+    new EnvLoader($rootDir, new Dotenv()),
+    new ContainerBuilder()
+);
+
+(new GoodMorningApplication($loader->load()))
+        ->initClient()
+        ->run();

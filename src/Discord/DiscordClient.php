@@ -4,12 +4,21 @@ namespace Yumerov\MaxiBot\Discord;
 
 use Discord\Discord;
 
-class DiscordClient
+class DiscordClient implements DiscordInterface
 {
+    /**
+     * @var callable
+     */
+    protected $onReadyAction;
+
     public function __construct(
         protected readonly Discord $discord,
-        protected $onReadyAction
     ) {
+    }
+
+    public function setOnReadyAction(callable $action): void
+    {
+        $this->onReadyAction = $action;
     }
 
     public function run(): void

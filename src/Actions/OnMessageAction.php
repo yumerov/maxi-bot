@@ -5,15 +5,12 @@ namespace Yumerov\MaxiBot\Actions;
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Psr\Log\LoggerInterface;
-use ReflectionClass;
-use ReflectionException;
-use Yumerov\MaxiBot\DTO\EnvDTO;
-use Yumerov\MaxiBot\Pipeline\AbstractStep;
-use Yumerov\MaxiBot\Pipeline\AllowedServerFirewallStep;
-use Yumerov\MaxiBot\Pipeline\MaintainerOnlyModeStep;
-use Yumerov\MaxiBot\Pipeline\NoSecondBestStep;
-use Yumerov\MaxiBot\Pipeline\NotMeFirewallStep;
-use Yumerov\MaxiBot\Pipeline\StepInterface;
+use Yumerov\MaxiBot\Exceptions\Exception;
+use Yumerov\MaxiBot\Pipeline\StepFactoryInterface;
+use Yumerov\MaxiBot\Pipeline\Steps\AllowedServerFirewallStep;
+use Yumerov\MaxiBot\Pipeline\Steps\MaintainerOnlyModeStep;
+use Yumerov\MaxiBot\Pipeline\Steps\NoSecondBestStep;
+use Yumerov\MaxiBot\Pipeline\Steps\NotMeFirewallStep;
 
 class OnMessageAction
 {
@@ -30,32 +27,24 @@ class OnMessageAction
 
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly EnvDTO $env
+        private readonly StepFactoryInterface $factory
     ) {
     }
 
     /**
-     * @throws ReflectionException
+     * @param Message $message
+     * @param Discord $discord
+     * @return void
+     * @throws Exception
      */
     public function __invoke(Message $message, Discord $discord): void
     {
         foreach ($this->steps as $stepClass) {
-            $reflectionClass = new ReflectionClass($stepClass);
+            $step = $this->factory->create($stepClass, $message, $discord);
 
-            if (!$reflectionClass->isSubclassOf(AbstractStep::class)) {
-                $this->logger->warning($stepClass . ' is not child of ' . AbstractStep::class);
-                continue;
+            if ($step === null) {
+                throw new Exception("Class '$stepClass' not found");
             }
-
-            if (! $reflectionClass->implementsInterface(StepInterface::class)) {
-                $this->logger->warning($stepClass  . ' does not implements ' . AbstractStep::class);
-                continue;
-            }
-
-            /**
-             * @var StepInterface $step
-             */
-            $step = $reflectionClass->newInstance($discord, $message, $this->logger, $this->env);
 
             if ($step->stops()) {
                 $this->logger->debug($stepClass  . ' stops.');

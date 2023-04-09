@@ -8,19 +8,17 @@ use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\Mocks\Message;
-use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
 use Yumerov\MaxiBot\Mocks\User;
+use Yumerov\MaxiBot\Pipeline\Steps\MaintainerOnlyModeStep;
 
 class MaintainerOnlyModeStepTest extends TestCase
 {
 
-    use EnvTrait;
-
     private const MAINTAINER = '1';
 
     private Message $message;
-    private LoggerInterface|InvocationMocker $logger;
     private Discord|InvocationMocker $discord;
+    private LoggerInterface|InvocationMocker $logger;
 
     /**
      * @throws Exception
@@ -71,11 +69,12 @@ class MaintainerOnlyModeStepTest extends TestCase
 
     private function initFirewall(string $maintainerOnlyMode): MaintainerOnlyModeStep
     {
-        return new MaintainerOnlyModeStep(
-            $this->discord,
-            $this->message,
+        return (new MaintainerOnlyModeStep(
             $this->logger,
-            $this->createEnvDTO(maintainerOnlyMode: $maintainerOnlyMode, maintainer: self::MAINTAINER)
-        );
+            self::MAINTAINER,
+            $maintainerOnlyMode
+        ))
+            ->setDiscord($this->discord)
+            ->setMessage($this->message);
     }
 }

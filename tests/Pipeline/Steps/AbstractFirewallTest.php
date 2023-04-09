@@ -2,17 +2,13 @@
 
 namespace Yumerov\MaxiBot\Pipeline;
 
-use Discord\Discord;
-use Discord\Parts\Channel\Message;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
+use Yumerov\MaxiBot\Pipeline\Steps\AbstractFirewall;
 
 class AbstractFirewallTest extends TestCase
 {
-
-    use EnvTrait;
 
     /**
      * @throws Exception
@@ -21,10 +17,7 @@ class AbstractFirewallTest extends TestCase
     {
         // Arrange
         $instance = new class(
-            $this->createMock(Discord::class),
-            $this->createMock(Message::class),
-            $this->createMock(LoggerInterface::class),
-            $this->createEnvDTO()
+            $this->createMock(LoggerInterface::class)
         ) extends AbstractFirewall {
 
             public function allow(): bool

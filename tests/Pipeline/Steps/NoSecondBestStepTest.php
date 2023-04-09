@@ -7,13 +7,10 @@ use Discord\Parts\Channel\Message;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Yumerov\MaxiBot\DTO\EnvDTO;
-use Yumerov\MaxiBot\Mocks\Traits\EnvTrait;
+use Yumerov\MaxiBot\Pipeline\Steps\NoSecondBestStep;
 
 class NoSecondBestStepTest extends TestCase
 {
-
-    use EnvTrait;
 
     /**
      * @throws Exception
@@ -21,22 +18,18 @@ class NoSecondBestStepTest extends TestCase
     public function test(): void
     {
         // Arrange
-        $discord = $this->createMock(Discord::class);
         $message = $this->createMock(Message::class);
+        $discord = $this->createMock(Discord::class);
         $logger = $this->createMock(LoggerInterface::class);
-        $env = $this->createEnvDTO();
 
         $message
             ->expects($this->once())
             ->method('reply')
             ->with('There is no second best!');
 
-        $step = new NoSecondBestStep(
-            $discord,
-            $message,
-            $logger,
-            $env
-        );
+        $step = new NoSecondBestStep($logger);
+        $step->setDiscord($discord);
+        $step->setMessage($message);
 
         // Act
         $step->execute();
