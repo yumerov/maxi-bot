@@ -38,7 +38,7 @@ class StepFactory implements StepFactoryInterface
         $reflectionClass = new ReflectionClass($class);
 
         if (! $reflectionClass->implementsInterface(StepInterface::class)) {
-            $this->logger->warning($class  . ' does not implements ' . AbstractStep::class);
+            $this->logger->warning($class  . ' does not implements ' . StepInterface::class);
             return null;
         }
 

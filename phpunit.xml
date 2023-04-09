@@ -15,6 +15,7 @@
         </include>
         <exclude>
             <directory suffix=".php">./src/Exceptions</directory>
+            <file>./src/functions.php</file>
         </exclude>
         <report>
             <clover outputFile="phpunit.coverage.xml"/>
