@@ -1,6 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\ContainerLoader;
 

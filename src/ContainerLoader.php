@@ -33,6 +33,9 @@ class ContainerLoader implements ContainerInterface
         return self::$instance;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function load(): ContainerInterface
     {
         $this->container->setParameter('kernel.root_dir', $this->rootDir);
