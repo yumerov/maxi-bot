@@ -6,6 +6,7 @@ services:
     calls:
       - [ 'pushHandler', [ '@Handler' ] ]
     shared: true
+    public: true
 
   Handler:
     class: 'Monolog\Handler\StreamHandler'

@@ -6,6 +6,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Yumerov\MaxiBot\Discord\DiscordInterface;
+use Yumerov\MaxiBot\Exceptions\ExitException;
 
 abstract class BaseApplication
 {
@@ -36,6 +37,11 @@ abstract class BaseApplication
 
     public function run(): void
     {
-        $this->client->run();
+        try {
+            $this->client->run();
+        } catch (ExitException $exception) {
+            $this->container->get('Logger')->debug($exception->getMessage());
+            exit();
+        }
     }
 }

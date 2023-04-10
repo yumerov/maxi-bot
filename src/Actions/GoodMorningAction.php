@@ -25,7 +25,6 @@ class GoodMorningAction
         $this->logger->debug('[GM] Bot is ready!');
 
         if (count($this->channels) === 0) {
-            $this->logger->debug('Empty good morning channel list');
             throw new ExitException('Empty good morning channel list');
         }
 
@@ -33,6 +32,9 @@ class GoodMorningAction
         $this->sendMessage(0);
     }
 
+    /**
+     * @throws ExitException
+     */
     private function sendMessage(int $currentChannelIndex): void
     {
         $channelId = $this->channels[$currentChannelIndex];
@@ -48,13 +50,12 @@ class GoodMorningAction
                 ->sendMessage('Добро утро, общество!')
                 ->always(function () use ($currentChannelIndex) {
                     $currentChannelIndex++;
-                    if (!isset($this->channels[$currentChannelIndex])) {
-                        $this->logger->debug('Reached the end of channel list');
-                        throw new ExitException('Reached the end of channel list');
+                    if (isset($this->channels[$currentChannelIndex])) {
+                        $this->sendMessage($currentChannelIndex);
                     }
-
-                    $this->sendMessage($currentChannelIndex);
                 });
+
+            throw new ExitException('Reached the end of channel list');
         } catch (NoPermissionsException $ex) {
             $this->logger->error($ex->getMessage());
         }
