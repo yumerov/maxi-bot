@@ -5,7 +5,8 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
-- Added Symfony DI
+- Symfony DI
+- PHPMetrics tool
 
 ### Changed
 - Refactored to use Symfony DI handle the class instance creating
