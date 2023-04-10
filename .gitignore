@@ -3,3 +3,4 @@
 /.env
 phpunit.coverage.xml
 .phpunit.result.cache
+/metrics
