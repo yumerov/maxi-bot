@@ -58,13 +58,13 @@ services:
 
   NotMeFirewallStep:
     public: true
-    class: 'Yumerov\MaxiBot\Pipeline\NotMeFirewallStep'
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\NotMeFirewallStep'
     arguments:
       - '@Logger'
 
   AllowedServerFirewallStep:
     public: true
-    class: 'Yumerov\MaxiBot\Pipeline\AllowedServerFirewallStep'
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\AllowedServerFirewallStep'
     arguments:
       - '@Logger'
       - '%discord.allowed_servers%'
@@ -72,7 +72,7 @@ services:
 
   MaintainerOnlyModeStep:
     public: true
-    class: 'Yumerov\MaxiBot\Pipeline\MaintainerOnlyModeStep'
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\MaintainerOnlyModeStep'
     arguments:
       - '@Logger'
       - '%discord.maintainer%'
@@ -80,6 +80,12 @@ services:
 
   NoSecondBestStep:
     public: true
-    class: 'Yumerov\MaxiBot\Pipeline\NoSecondBestStep'
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\NoSecondBestStep'
+    arguments:
+      - '@Logger'
+
+  GoodMorningReactionStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\GoodMorningReactionStep'
     arguments:
       - '@Logger'

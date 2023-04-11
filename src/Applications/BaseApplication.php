@@ -35,6 +35,10 @@ abstract class BaseApplication
 
     abstract protected function setOnReadyAction(): void;
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function run(): void
     {
         try {
