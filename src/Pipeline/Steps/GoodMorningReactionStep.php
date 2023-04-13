@@ -15,9 +15,11 @@ class GoodMorningReactionStep extends AbstractStep implements StepInterface
 
     public function execute(): void
     {
-        $content = mb_strtolower(str_replace(' ', '', $this->message->content));
+        if ($this->message->author?->bot) {
+            return;
+        }
 
-        echo $content . "\n";
+        $content = mb_strtolower(str_replace(' ', '', $this->message->content));
 
         foreach (self::GOOD_MORNING_GREETINGS as $greeting) {
             if (str_contains($content, $greeting)) {

@@ -3,12 +3,10 @@
 namespace Pipeline\Steps;
 
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use ReflectionException;
-use ReflectionProperty;
 use Yumerov\MaxiBot\Mocks\Discord;
 use Yumerov\MaxiBot\Mocks\Message;
+use Yumerov\MaxiBot\Mocks\User;
 use Yumerov\MaxiBot\Pipeline\Steps\GoodMorningReactionStep;
 use PHPUnit\Framework\TestCase;
 
@@ -37,12 +35,28 @@ class GoodMorningReactionStepTest extends TestCase
     }
 
     /**
+     * @return void
+     */
+    public function test_execute_bot(): void
+    {
+        // Arrange
+        $this->message->content = self::getProvider()[0][0];
+        $this->message->author = new User('1');
+        $this->message->author->bot = true;
+
+        // Act
+        $this->step->execute();
+
+        // Assert
+        $this->assertEmpty($this->message->reactions);
+    }
+
+    /**
      * @dataProvider getProvider
      * @param string $greeting
      * @return void
-     * @throws ReflectionException
      */
-    public function test_true(string $greeting): void
+    public function test_execute_react(string $greeting): void
     {
         // Arrange
         $this->message->content = $greeting;

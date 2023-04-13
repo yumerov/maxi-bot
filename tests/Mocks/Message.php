@@ -21,7 +21,7 @@ class Message extends RealMessage
     public $mentions;
     public string $replyContent;
     public string $content;
-    public array $reactions;
+    public array $reactions = [];
 
     public function __construct()
     {
