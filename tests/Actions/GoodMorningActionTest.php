@@ -64,7 +64,7 @@ class GoodMorningActionTest extends TestCase
         $this->expectException(ExitException::class);
         $channels = ['1', '2', '3'];
         $this->logger
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('debug');
 
         // Act

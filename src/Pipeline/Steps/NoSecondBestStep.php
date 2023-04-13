@@ -5,10 +5,7 @@ namespace Yumerov\MaxiBot\Pipeline\Steps;
 class NoSecondBestStep extends AbstractStep implements StepInterface
 {
 
-    public function stops(): bool
-    {
-        return false;
-    }
+    use NonStoppingStepTrait;
 
     public function execute(): void
     {
