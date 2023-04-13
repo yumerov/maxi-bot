@@ -89,3 +89,9 @@ services:
     class: 'Yumerov\MaxiBot\Pipeline\Steps\GoodMorningReactionStep'
     arguments:
       - '@Logger'
+
+  QuoteRepository:
+    public: true
+    class: 'Yumerov\MaxiBot\Repository\SimpleQuoteRepository'
+    arguments:
+      - '%kernel.data_dir%/quotes.php'

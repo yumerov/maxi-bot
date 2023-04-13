@@ -1,5 +1,6 @@
 parameters:
   kernel.logs_dir: '%kernel.root_dir%/var/logs'
+  kernel.data_dir: '%kernel.root_dir%/data'
   discord.token: '%env(DISCORD_TOKEN)%'
   discord.intents: 3243773
   discord.maintainer: '%env(MAINTAINER)%'
