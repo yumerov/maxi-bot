@@ -54,6 +54,7 @@ services:
     class: 'Yumerov\MaxiBot\Actions\OnReadyAction'
     arguments:
       - '@OnMessageAction'
+      - '@CommandHandler'
       - '@Logger'
 
   NotMeFirewallStep:
@@ -95,3 +96,20 @@ services:
     class: 'Yumerov\MaxiBot\Repository\SimpleQuoteRepository'
     arguments:
       - '%kernel.data_dir%/quotes.php'
+
+  RandomQuoteCommand:
+    class: 'Yumerov\MaxiBot\Commands\RandomQuoteCommand'
+    public: true
+    arguments:
+      - '@QuoteRepository'
+
+  CommandFactory:
+    class: 'Yumerov\MaxiBot\Commands\CommandFactory'
+    arguments:
+      - '@Logger'
+      - '@Container'
+
+  CommandHandler:
+    class: 'Yumerov\MaxiBot\Commands\CommandHandler'
+    arguments:
+      - '@CommandFactory'
