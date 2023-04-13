@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Symfony DI
 - PHPMetrics tool
+- Coffee reaction to good morning messages
 
 ### Changed
 - Refactored to use Symfony DI handle the class instance creating
