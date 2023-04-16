@@ -16,6 +16,7 @@ class CommandHandler implements CommandHandlerInterface
 
     private array $commands = [
         RandomQuoteCommand::class,
+        RandomGifCommand::class,
     ];
 
     /**
