@@ -5,7 +5,6 @@ namespace Yumerov\MaxiBot\Commands;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
-use Discord\Discord;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;

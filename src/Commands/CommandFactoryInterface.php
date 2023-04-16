@@ -2,8 +2,6 @@
 
 namespace Yumerov\MaxiBot\Commands;
 
-use Discord\Discord;
-
 interface CommandFactoryInterface
 {
 
