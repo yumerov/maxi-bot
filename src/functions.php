@@ -1,7 +1,12 @@
 <?php
 
+/**
+ * Set of functions for debugging and quick prototyping
+ */
+
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\ContainerLoader;
+
 
 function dd($arg): void
 {
@@ -16,5 +21,14 @@ function dd($arg): void
  */
 function logger(): LoggerInterface
 {
-    return ContainerLoader::getInstance()->get('Logger');
+    return get('Logger');
+}
+
+/**
+ * @throws \Yumerov\MaxiBot\Exceptions\Exception
+ * @throws Exception
+ */
+function get(string $id)
+{
+    return ContainerLoader::getInstance()->get($id);
 }
