@@ -7,7 +7,6 @@
 use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\ContainerLoader;
 
-
 function dd($arg): void
 {
     var_dump($arg);
