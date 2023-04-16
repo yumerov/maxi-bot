@@ -92,16 +92,26 @@ services:
       - '@Logger'
 
   QuoteRepository:
-    public: true
     class: 'Yumerov\MaxiBot\Repository\SimpleQuoteRepository'
     arguments:
       - '%kernel.data_dir%/quotes.php'
+
+  GifRepository:
+    class: 'Yumerov\MaxiBot\Repository\SimpleGifRepository'
+    arguments:
+      - '%kernel.data_dir%/gifs.php'
 
   RandomQuoteCommand:
     class: 'Yumerov\MaxiBot\Commands\RandomQuoteCommand'
     public: true
     arguments:
       - '@QuoteRepository'
+
+  RandomGifCommand:
+    class: 'Yumerov\MaxiBot\Commands\RandomGifCommand'
+    public: true
+    arguments:
+      - '@GifRepository'
 
   CommandFactory:
     class: 'Yumerov\MaxiBot\Commands\CommandFactory'
