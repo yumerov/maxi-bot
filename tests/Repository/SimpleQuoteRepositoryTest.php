@@ -19,6 +19,7 @@ class SimpleQuoteRepositoryTest extends TestCase
         $quote = $repository->getRandomQuote();
 
         // Assert
-        $this->assertContains($quote, $quotes);
+        $this->assertContains($quote->getContent(), array_keys($quotes));
+        $this->assertEquals($quotes[$quote->getContent()], $quote->getAuthor());
     }
 }

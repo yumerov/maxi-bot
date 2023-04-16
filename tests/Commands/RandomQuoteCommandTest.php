@@ -7,6 +7,7 @@ use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Yumerov\MaxiBot\Commands\RandomQuoteCommand;
 use PHPUnit\Framework\TestCase;
+use Yumerov\MaxiBot\DTO\QuoteDTO;
 use Yumerov\MaxiBot\Repository\QuoteRepositoryInterface;
 
 class RandomQuoteCommandTest extends TestCase
@@ -40,10 +41,11 @@ class RandomQuoteCommandTest extends TestCase
     public function test_execute(): void
     {
         $interaction = $this->createMock(Interaction::class);
+        $quote = new QuoteDTO('Test', 'test');
         $this->repository
             ->expects($this->once())
             ->method('getRandomQuote')
-            ->willReturn('Test');
+            ->willReturn($quote);
         $interaction->expects($this->once())
             ->method('respondWithMessage');
 

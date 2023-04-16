@@ -25,6 +25,8 @@ class RandomQuoteCommand implements CommandInterface
 
     public function execute(Interaction $interaction): void
     {
-        $interaction->respondWithMessage(MessageBuilder::new()->setContent($this->repository->getRandomQuote()));
+        $quote = $this->repository->getRandomQuote();
+        $message = MessageBuilder::new()->setContent("\"{$quote->getContent()}\"\n\~{$quote->getAuthor()}");
+        $interaction->respondWithMessage($message);
     }
 }
