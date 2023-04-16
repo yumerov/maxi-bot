@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - PHPMetrics tool
 - Coffee reaction to good morning messages
 - Slash command "quote" to get a random Bitcoin related quote
+- Slash command "gif" to get a random Bitcoin related gif
 
 ### Changed
 - Refactored to use Symfony DI handle the class instance creating
