@@ -25,7 +25,6 @@ class GoodMorningAction
         $this->logger->debug('[GM] Bot is ready!');
 
         if (count($this->channels) === 0) {
-            $this->logger->debug('Empty good morning channel list');
             throw new ExitException('Empty good morning channel list');
         }
 
@@ -33,29 +32,32 @@ class GoodMorningAction
         $this->sendMessage(0);
     }
 
+    /**
+     * @throws ExitException
+     */
     private function sendMessage(int $currentChannelIndex): void
     {
         $channelId = $this->channels[$currentChannelIndex];
         $channel = $this->discord->getChannel($channelId);
 
-        if ($channel !== null) {
-            try {
-                $channel
-                    ->sendMessage('Добро утро, общество!')
-                    ->always(function () use ($currentChannelIndex) {
-                        $currentChannelIndex++;
-                        if (!isset($this->channels[$currentChannelIndex])) {
-                            $this->logger->debug('Reached the end of channel list');
-                            throw new ExitException('Reached the end of channel list');
-                        }
-
-                        $this->sendMessage($currentChannelIndex);
-                    });
-            } catch (NoPermissionsException $ex) {
-                $this->logger->error($ex->getMessage());
-            }
-        } else {
+        if ($channel === null) {
             $this->logger->debug('Could not find the channel with id ' . $channelId);
+            return;
+        }
+
+        try {
+            $channel
+                ->sendMessage('Добро утро, общество!')
+                ->always(function () use ($currentChannelIndex) {
+                    $currentChannelIndex++;
+                    if (isset($this->channels[$currentChannelIndex])) {
+                        $this->sendMessage($currentChannelIndex);
+                    }
+                });
+
+            throw new ExitException('Reached the end of channel list');
+        } catch (NoPermissionsException $ex) {
+            $this->logger->error($ex->getMessage());
         }
     }
 }

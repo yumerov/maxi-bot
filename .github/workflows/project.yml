@@ -25,4 +25,4 @@ jobs:
         run: composer style
 
       - name: Run tests
-        run: composer test
+        run: composer tc

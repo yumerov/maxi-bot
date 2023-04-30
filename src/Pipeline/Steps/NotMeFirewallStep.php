@@ -1,22 +1,9 @@
 <?php
 
-namespace Yumerov\MaxiBot\Firewalls;
+namespace Yumerov\MaxiBot\Pipeline\Steps;
 
-use Discord\Discord;
-use Discord\Parts\Channel\Message;
-use Psr\Log\LoggerInterface;
-
-class NotMeFirewall extends AbstractFirewall
+class NotMeFirewallStep extends AbstractFirewall
 {
-
-    public function __construct(
-        private readonly Discord $discord,
-        Message $message,
-        LoggerInterface $logger,
-        array $env
-    ) {
-        parent::__construct($message, $logger, $env);
-    }
 
     public function allow(): bool
     {

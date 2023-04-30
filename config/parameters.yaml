@@ -1,0 +1,9 @@
+parameters:
+  kernel.logs_dir: '%kernel.root_dir%/var/logs'
+  kernel.data_dir: '%kernel.root_dir%/data'
+  discord.token: '%env(DISCORD_TOKEN)%'
+  discord.intents: 3243773
+  discord.maintainer: '%env(MAINTAINER)%'
+  discord.maintainer_only_mode: '%env(MAINTAINER_ONLY_MODE)%'
+  discord.allowed_servers: '%env(json:ALLOWED_SERVERS)%'
+  gm.channels: '%env(json:GOOD_MORNING_CHANNELS)%'

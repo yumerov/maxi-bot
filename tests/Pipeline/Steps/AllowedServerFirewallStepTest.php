@@ -1,30 +1,30 @@
 <?php
 
-namespace Yumerov\MaxiBot\Firewalls;
+namespace Yumerov\MaxiBot\Pipeline;
 
+use Discord\Discord;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Yumerov\MaxiBot\DTO\EnvDTO;
 use Yumerov\MaxiBot\Mocks\Message;
 use Yumerov\MaxiBot\Mocks\Thread;
+use Yumerov\MaxiBot\Pipeline\Steps\AllowedServerFirewallStep;
 
-class AllowedServerFirewallTest extends TestCase
+class AllowedServerFirewallStepTest extends TestCase
 {
 
     private Message $message;
+    private Discord $discord;
     private string $maintainer = '0x123';
-
-    protected function setUp(): void
-    {
-        $this->message = new Message();
-    }
 
     /**
      * @throws Exception
      */
-    public function test_malformed_data(): void
+    protected function setUp(): void
     {
-        $this->assertFalse($this->initFirewall('[')->allow());
+        $this->message = new Message();
+        $this->discord = $this->createMock(Discord::class);
     }
 
     /**
@@ -32,7 +32,7 @@ class AllowedServerFirewallTest extends TestCase
      */
     public function test_empty_allow_list(): void
     {
-        $this->assertFalse($this->initFirewall('[]')->allow());
+        $this->assertFalse($this->initFirewall([])->allow());
     }
 
     /**
@@ -44,7 +44,7 @@ class AllowedServerFirewallTest extends TestCase
         $this->message->channel = new Thread('1');
 
         // Act
-        $isAllowed = $this->initFirewall('["0"]')->allow();
+        $isAllowed = $this->initFirewall(["0"])->allow();
 
         // Assert
         $this->assertFalse($isAllowed);
@@ -63,21 +63,20 @@ class AllowedServerFirewallTest extends TestCase
         $this->message->channel = new Thread('0');
 
         // Act && Assert
-        $this->assertTrue($this->initFirewall('["0"]')->allow());
+        $this->assertTrue($this->initFirewall(["0"])->allow());
     }
 
     /**
      * @throws Exception
      */
-    private function initFirewall(string $allowedServers): AllowedServerFirewall
+    private function initFirewall(array $allowedServers): AllowedServerFirewallStep
     {
-        return new AllowedServerFirewall(
-            $this->message,
+        return (new AllowedServerFirewallStep(
             $this->createMock(LoggerInterface::class),
-            [
-                'ALLOWED_SERVERS' => $allowedServers,
-                'MAINTAINER' => $this->maintainer,
-            ]
-        );
+            $allowedServers,
+            $this->maintainer
+        ))
+            ->setDiscord($this->discord)
+            ->setMessage($this->message);
     }
 }

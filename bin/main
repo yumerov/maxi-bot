@@ -2,14 +2,22 @@
 
 <?php
 
-
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\Dotenv\Dotenv;
 use Yumerov\MaxiBot\Applications\MainApplication;
+use Yumerov\MaxiBot\ContainerLoader;
+use Yumerov\MaxiBot\EnvLoader;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(new MainApplication(__DIR__ . '/..'))
-    ->initEnv()
-    ->setEnv($_ENV)
-    ->initLogger()
+$rootDir = dirname(__DIR__);
+$loader = new ContainerLoader(
+    $rootDir,
+    new EnvLoader($rootDir, new Dotenv()),
+    new ContainerBuilder()
+);
+
+(new MainApplication($loader->load()))
     ->initClient()
     ->run();

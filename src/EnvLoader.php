@@ -2,7 +2,8 @@
 
 namespace Yumerov\MaxiBot;
 
-use Dotenv\Dotenv;
+use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
+use Symfony\Component\Dotenv\Dotenv;
 
 class EnvLoader
 {
@@ -15,17 +16,26 @@ class EnvLoader
         'MAINTAINER_ONLY_MODE',
     ];
 
-    public function __construct(private readonly string $rootDir)
-    {
+    public function __construct(
+        private readonly string $rootDir,
+        private readonly Dotenv $dotenv
+    ) {
     }
 
     public function load(): void
     {
-        if (!file_exists($this->rootDir . '/.env')) {
+        $path = $this->rootDir . '/.env';
+        if (!file_exists($path)) {
             return;
         }
-        $dotenv = Dotenv::createImmutable($this->rootDir);
-        $dotenv->load();
-        $dotenv->required(self::REQUIRED);
+        $this->dotenv->load($path);
+
+        foreach (self::REQUIRED as $key) {
+            if (isset($_ENV[$key])) {
+                return;
+            }
+
+            throw new EnvNotFoundException("The env var '$key' is missing");
+        }
     }
 }

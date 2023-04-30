@@ -1,0 +1,125 @@
+services:
+  Logger:
+    class: 'Monolog\Logger'
+    arguments:
+      - 'logger'
+    calls:
+      - [ 'pushHandler', [ '@Handler' ] ]
+    shared: true
+    public: true
+
+  Handler:
+    class: 'Monolog\Handler\StreamHandler'
+    arguments:
+      - '%kernel.logs_dir%/app.log'
+
+  BaseDiscord:
+    shared: true
+    class: 'Discord\Discord'
+    arguments:
+      - {token: '%discord.token%', intents: '%discord.intents%', logger: '@Logger'}
+
+  Discord:
+    shared: true
+    public: true
+    class: 'Yumerov\MaxiBot\Discord\DiscordClient'
+    arguments:
+      - '@BaseDiscord'
+
+  StepFactory:
+    shared: true
+    class: 'Yumerov\MaxiBot\Pipeline\StepFactory'
+    arguments:
+      - '@Logger'
+      - '@Container'
+
+  OnMessageAction:
+    shared: true
+    class: 'Yumerov\MaxiBot\Actions\OnMessageAction'
+    arguments:
+      - '@Logger'
+      - '@StepFactory'
+
+  GoodMorningAction:
+    shared: true
+    public: true
+    class: 'Yumerov\MaxiBot\Actions\GoodMorningAction'
+    arguments:
+      - '%gm.channels%'
+      - '@Logger'
+
+  OnReadyAction:
+    shared: true
+    public: true
+    class: 'Yumerov\MaxiBot\Actions\OnReadyAction'
+    arguments:
+      - '@OnMessageAction'
+      - '@CommandHandler'
+      - '@Logger'
+
+  NotMeFirewallStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\NotMeFirewallStep'
+    arguments:
+      - '@Logger'
+
+  AllowedServerFirewallStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\AllowedServerFirewallStep'
+    arguments:
+      - '@Logger'
+      - '%discord.allowed_servers%'
+      - '%discord.maintainer%'
+
+  MaintainerOnlyModeStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\MaintainerOnlyModeStep'
+    arguments:
+      - '@Logger'
+      - '%discord.maintainer%'
+      - '%discord.maintainer_only_mode%'
+
+  NoSecondBestStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\NoSecondBestStep'
+    arguments:
+      - '@Logger'
+
+  GoodMorningReactionStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\GoodMorningReactionStep'
+    arguments:
+      - '@Logger'
+
+  QuoteRepository:
+    class: 'Yumerov\MaxiBot\Repository\SimpleQuoteRepository'
+    arguments:
+      - '%kernel.data_dir%/quotes.php'
+
+  GifRepository:
+    class: 'Yumerov\MaxiBot\Repository\SimpleGifRepository'
+    arguments:
+      - '%kernel.data_dir%/gifs.php'
+
+  RandomQuoteCommand:
+    class: 'Yumerov\MaxiBot\Commands\RandomQuoteCommand'
+    public: true
+    arguments:
+      - '@QuoteRepository'
+
+  RandomGifCommand:
+    class: 'Yumerov\MaxiBot\Commands\RandomGifCommand'
+    public: true
+    arguments:
+      - '@GifRepository'
+
+  CommandFactory:
+    class: 'Yumerov\MaxiBot\Commands\CommandFactory'
+    arguments:
+      - '@Logger'
+      - '@Container'
+
+  CommandHandler:
+    class: 'Yumerov\MaxiBot\Commands\CommandHandler'
+    arguments:
+      - '@CommandFactory'

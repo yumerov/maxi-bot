@@ -7,7 +7,8 @@
         "psr-4": {
             "Yumerov\\MaxiBot\\": "src/",
             "Yumerov\\MaxiBot\\Mocks\\": "tests/Mocks/"
-        }
+        },
+        "files": ["src/functions.php"]
     },
     "authors": [
         {
@@ -26,25 +27,41 @@
         "phpunit/phpunit": "^10.0",
         "phpstan/phpstan": "^1.10",
         "roave/security-advisories": "dev-master",
-        "squizlabs/php_codesniffer": "^3.7"
+        "squizlabs/php_codesniffer": "^3.7",
+        "phpmetrics/phpmetrics": "^2.8"
     },
     "scripts": {
         "test": [
             "phpunit"
         ],
+        "test-stop": [
+            "phpunit --stop-on-error --stop-on-failure"
+        ],
+        "test-covertage": [
+            "bash test-coverage.sh"
+        ],
+        "tc": [
+            "@test-covertage"
+        ],
         "style": [
             "phpcs",
             "phpstan analyse"
         ],
+        "metrics": [
+            "phpmetrics --report-html=metrics -c phpmetrics.yml src/"
+        ],
         "quality": [
             "@style",
-            "@test",
+            "@test-covertage",
             "echo \"Everything is electricity and cable\""
         ]
     },
     "require": {
         "team-reflex/discord-php": "^7.3",
-        "vlucas/phpdotenv": "^5.5",
-        "monolog/monolog": "^3.3"
+        "monolog/monolog": "^3.3",
+        "symfony/dependency-injection": "^6.2",
+        "symfony/config": "^6.2",
+        "symfony/yaml": "^6.2",
+        "symfony/dotenv": "^6.2"
     }
 }

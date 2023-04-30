@@ -5,44 +5,55 @@ namespace Yumerov\MaxiBot\Actions;
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Psr\Log\LoggerInterface;
-use Yumerov\MaxiBot\Firewalls\AbstractFirewall;
-use Yumerov\MaxiBot\Firewalls\AllowedServerFirewall;
-use Yumerov\MaxiBot\Firewalls\MaintainerOnlyMode;
-use Yumerov\MaxiBot\Firewalls\NotMeFirewall;
+use Yumerov\MaxiBot\Exceptions\Exception;
+use Yumerov\MaxiBot\Pipeline\StepFactoryInterface;
+use Yumerov\MaxiBot\Pipeline\Steps\AllowedServerFirewallStep;
+use Yumerov\MaxiBot\Pipeline\Steps\GoodMorningReactionStep;
+use Yumerov\MaxiBot\Pipeline\Steps\MaintainerOnlyModeStep;
+use Yumerov\MaxiBot\Pipeline\Steps\NoSecondBestStep;
+use Yumerov\MaxiBot\Pipeline\Steps\NotMeFirewallStep;
 
 class OnMessageAction
 {
 
     /**
-     * @var AbstractFirewall[]
+     * @var string[]
      */
-    private array $firewalls;
+    protected array $steps = [
+        GoodMorningReactionStep::class,
+        NotMeFirewallStep::class,
+        AllowedServerFirewallStep::class,
+        MaintainerOnlyModeStep::class,
+        NoSecondBestStep::class
+    ];
 
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly array $env
+        private readonly StepFactoryInterface $factory
     ) {
     }
 
-    private function initFirewalls(Message $message, Discord $discord): void
-    {
-        $this->firewalls = [
-            new NotMeFirewall($discord, $message, $this->logger, $this->env),
-            new AllowedServerFirewall($message, $this->logger, $this->env),
-            new MaintainerOnlyMode($message, $this->logger, $this->env),
-        ];
-    }
-
+    /**
+     * @param Message $message
+     * @param Discord $discord
+     * @return void
+     * @throws Exception
+     */
     public function __invoke(Message $message, Discord $discord): void
     {
-        $this->initFirewalls($message, $discord);
+        foreach ($this->steps as $stepClass) {
+            $step = $this->factory->create($stepClass, $message, $discord);
 
-        foreach ($this->firewalls as $firewall) {
-            if (!$firewall->allow()) {
+            if ($step === null) {
+                throw new Exception("Class '$stepClass' not found");
+            }
+
+            if ($step->stops()) {
+                $this->logger->debug($stepClass  . ' stops.');
                 return;
             }
-        }
 
-        $message->reply('There is no second best!');
+            $step->execute();
+        }
     }
 }

@@ -6,13 +6,18 @@
 >
     <testsuites>
         <testsuite name="Tests">
-            <directory suffix="Test.php">tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
     <coverage>
         <include>
             <directory suffix=".php">./src</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">./src/Exceptions</directory>
+            <directory suffix=".php">./src/DTO</directory>
+            <file>./src/functions.php</file>
+        </exclude>
         <report>
             <clover outputFile="phpunit.coverage.xml"/>
         </report>

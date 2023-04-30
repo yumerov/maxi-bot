@@ -20,6 +20,8 @@ class Message extends RealMessage
      */
     public $mentions;
     public string $replyContent;
+    public string $content;
+    public array $reactions = [];
 
     public function __construct()
     {
@@ -29,6 +31,19 @@ class Message extends RealMessage
     public function reply($message): ExtendedPromiseInterface
     {
         $this->replyContent = $message;
+
+        return $this->getExtendedPromise();
+    }
+
+    public function react($emoticon): ExtendedPromiseInterface
+    {
+        $this->reactions[] = $emoticon;
+
+        return $this->getExtendedPromise();
+    }
+
+    private function getExtendedPromise(): ExtendedPromiseInterface
+    {
         return new class implements ExtendedPromiseInterface {
 
             public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onProgress = null)
