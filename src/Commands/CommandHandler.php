@@ -17,6 +17,7 @@ class CommandHandler implements CommandHandlerInterface
     private array $commands = [
         RandomQuoteCommand::class,
         RandomGifCommand::class,
+        EchoCommand::class,
     ];
 
     /**
@@ -34,7 +35,8 @@ class CommandHandler implements CommandHandlerInterface
 
             $discord->application->commands->save(new Command($discord, [
                 'name' => $command->getName(),
-                'description' => $command->getDescription()
+                'description' => $command->getDescription(),
+                'options' => $command->getOptions($discord),
             ]));
             $discord->listenCommand($command->getName(), [$command, 'execute']);
         }

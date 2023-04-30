@@ -113,6 +113,10 @@ services:
     arguments:
       - '@GifRepository'
 
+  EchoCommand:
+    class: 'Yumerov\MaxiBot\Commands\EchoCommand'
+    public: true
+
   CommandFactory:
     class: 'Yumerov\MaxiBot\Commands\CommandFactory'
     arguments:

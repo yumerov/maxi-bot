@@ -14,4 +14,5 @@ return [
     "There is no second best Crypto asset." => "Michael J. Saylor",
     "The creation of Digital Property using Proof of Work and Nakamoto Consensus is a modern miracle." => "Michael J. Saylor",
     "It's going up forever Laura." => "Michael J. Saylor",
+    "I n the long run anything that is not Bitcoin, is going to zero." => "Greg Foss",
 ];

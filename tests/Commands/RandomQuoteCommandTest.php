@@ -2,6 +2,7 @@
 
 namespace Commands;
 
+use Discord\Discord;
 use Discord\Parts\Interactions\Interaction;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -33,6 +34,14 @@ class RandomQuoteCommandTest extends TestCase
     public function test_getDescription(): void
     {
         $this->assertEquals('Returns a random Bitcoin quote', $this->command->getDescription());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function test_getOptions(): void
+    {
+        $this->assertEmpty($this->command->getOptions($this->createMock(Discord::class)));
     }
 
     /**

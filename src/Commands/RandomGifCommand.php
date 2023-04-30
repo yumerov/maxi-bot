@@ -3,6 +3,7 @@
 namespace Yumerov\MaxiBot\Commands;
 
 use Discord\Builders\MessageBuilder;
+use Discord\Discord;
 use Discord\Parts\Embed\Embed;
 use Discord\Parts\Interactions\Interaction;
 use Yumerov\MaxiBot\Repository\GifRepositoryInterface;
@@ -10,6 +11,8 @@ use Yumerov\MaxiBot\Repository\QuoteRepositoryInterface;
 
 class RandomGifCommand implements CommandInterface
 {
+
+    use NoOptionsCommandTrait;
 
     public function __construct(private readonly GifRepositoryInterface $repository)
     {

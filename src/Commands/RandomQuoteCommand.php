@@ -9,6 +9,8 @@ use Yumerov\MaxiBot\Repository\QuoteRepositoryInterface;
 class RandomQuoteCommand implements CommandInterface
 {
 
+    use NoOptionsCommandTrait;
+
     public function __construct(private readonly QuoteRepositoryInterface $repository)
     {
     }
