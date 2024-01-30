@@ -2,18 +2,19 @@
 
 namespace Yumerov\MaxiBot\Pipeline\Steps;
 
-class GoodMorningReactionStep extends OnMessageReactStep
+class CheersReactionStep extends OnMessageReactStep
 {
     public function getMessageFragments(): array
     {
         return [
-            'доброутро',
-            'морнинг',
+            'наздраве',
+            'чиърс',
+            'cheers',
         ];
     }
 
     public function getReactionEmoji(): string
     {
-        return '☕';
+        return '🍺';
     }
 }

@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use Yumerov\MaxiBot\Exceptions\Exception;
 use Yumerov\MaxiBot\Pipeline\StepFactoryInterface;
 use Yumerov\MaxiBot\Pipeline\Steps\AllowedServerFirewallStep;
+use Yumerov\MaxiBot\Pipeline\Steps\CheersReactionStep;
 use Yumerov\MaxiBot\Pipeline\Steps\GoodMorningReactionStep;
 use Yumerov\MaxiBot\Pipeline\Steps\MaintainerOnlyModeStep;
 use Yumerov\MaxiBot\Pipeline\Steps\NoSecondBestStep;
@@ -21,6 +22,7 @@ class OnMessageAction
      */
     protected array $steps = [
         GoodMorningReactionStep::class,
+        CheersReactionStep::class,
         NotMeFirewallStep::class,
         AllowedServerFirewallStep::class,
         MaintainerOnlyModeStep::class,

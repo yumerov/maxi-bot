@@ -91,6 +91,12 @@ services:
     arguments:
       - '@Logger'
 
+  CheersReactionStep:
+    public: true
+    class: 'Yumerov\MaxiBot\Pipeline\Steps\CheersReactionStep'
+    arguments:
+      - '@Logger'
+
   QuoteRepository:
     class: 'Yumerov\MaxiBot\Repository\SimpleQuoteRepository'
     arguments:
