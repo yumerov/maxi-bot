@@ -9,6 +9,8 @@ class GoodMorningReactionStep extends OnMessageReactStep
         return [
             'доброутро',
             'морнинг',
+            'goodmorning', // targets gif messages
+            'good-morning', // targets gif messages
         ];
     }
 
